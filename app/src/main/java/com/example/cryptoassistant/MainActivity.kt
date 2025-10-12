@@ -1,8 +1,12 @@
 package com.example.cryptoassistant
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
+import android.widget.TextView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
@@ -35,12 +39,31 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_home, R.id.navigation_dashboard
             )
         )
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
 
+
+        if (isSystemInDarkTheme(this)) {
+            binding.topLine.setBackgroundColor(
+                ContextCompat.getColor(
+                    this,
+                    R.color.teal_200)
+            )
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+
+    // Вспомогательная функция для проверки темы
+    fun isSystemInDarkTheme(context: Context): Boolean {
+        return when (context.resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_YES -> true
+            else -> false
+        }
     }
 }

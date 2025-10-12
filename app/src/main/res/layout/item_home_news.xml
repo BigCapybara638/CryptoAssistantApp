@@ -40,7 +40,6 @@
 
         </LinearLayout>
 
-        <!-- title -->
         <TextView
             android:id="@+id/resourceName"
             android:layout_width="match_parent"

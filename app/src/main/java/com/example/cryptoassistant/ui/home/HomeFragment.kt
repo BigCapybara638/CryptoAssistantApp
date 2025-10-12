@@ -1,6 +1,8 @@
 package com.example.cryptoassistant.ui.home
 
 
+import android.content.Context
+import android.content.res.Configuration
 import com.example.cryptoassistant.R
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
@@ -46,6 +49,15 @@ class HomeFragment : Fragment() {
         setupRecyclerViews()
         setupObservers()
         viewModel.loadAllData()
+
+    }
+
+    fun isSystemInDarkTheme(context: Context): Boolean {
+        return when (context.resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_YES -> true
+            else -> false
+        }
     }
 
     private fun setupRecyclerViews() {

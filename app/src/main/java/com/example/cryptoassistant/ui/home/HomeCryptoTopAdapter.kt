@@ -1,5 +1,8 @@
 package com.example.cryptoassistant.ui.home
 
+import android.content.Context
+import com.example.cryptoassistant.R
+import android.content.res.Configuration
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -50,21 +53,56 @@ class HomeCryptoTopAdapter : ListAdapter<CryptoItem, HomeCryptoTopAdapter.Crypto
 
             // Цвет в зависимости от изменения цены
             val context = binding.root.context
-            if (change >= 0) {
-                binding.cryptoChange.setTextColor(
-                    ContextCompat.getColor(context, android.R.color.holo_green_dark)
+
+            if (isSystemInDarkTheme(context)) {
+
+                binding.cryptoSymbol.setTextColor(
+                    ContextCompat.getColor(context, R.color.boldTextNightTheme)
                 )
 
-                binding.cryptoChange.setBackgroundColor(
-                    ContextCompat.getColor(context, android.R.color.holo_green_light)
+                binding.cryptoName.setTextColor(
+                    ContextCompat.getColor(context, R.color.purple_500)
                 )
+
+                binding.cryptoPrice.setTextColor(
+                    ContextCompat.getColor(context, R.color.boldTextNightTheme)
+                )
+
+                if (change >= 0) {
+                    binding.cryptoChange.setTextColor(
+                        ContextCompat.getColor(context, android.R.color.holo_green_dark)
+                    )
+
+                    binding.cryptoChange.setBackgroundColor(
+                        ContextCompat.getColor(context, R.color.greenBlack)
+                    )
+                } else {
+                    binding.cryptoChange.setTextColor(
+                        ContextCompat.getColor(context, android.R.color.holo_red_dark)
+                    )
+                    binding.cryptoChange.setBackgroundColor(
+                        ContextCompat.getColor(context, R.color.redBlack)
+
+                    )
+                }
             } else {
-                binding.cryptoChange.setTextColor(
-                    ContextCompat.getColor(context, android.R.color.holo_red_dark)
-                )
-                binding.cryptoChange.setBackgroundColor(
-                    ContextCompat.getColor(context, android.R.color.holo_red_light)
-                )
+                if (change >= 0) {
+                    binding.cryptoChange.setTextColor(
+                        ContextCompat.getColor(context, android.R.color.holo_green_dark)
+                    )
+
+                    binding.cryptoChange.setBackgroundColor(
+                        ContextCompat.getColor(context, android.R.color.holo_green_light)
+                    )
+                } else {
+                    binding.cryptoChange.setTextColor(
+                        ContextCompat.getColor(context, android.R.color.holo_red_dark)
+                    )
+                    binding.cryptoChange.setBackgroundColor(
+                        ContextCompat.getColor(context, android.R.color.holo_red_light)
+
+                    )
+                }
             }
         }
     }
@@ -78,6 +116,14 @@ class HomeCryptoTopAdapter : ListAdapter<CryptoItem, HomeCryptoTopAdapter.Crypto
             override fun areContentsTheSame(oldItem: CryptoItem, newItem: CryptoItem): Boolean {
                 return oldItem == newItem
             }
+        }
+    }
+
+    fun isSystemInDarkTheme(context: Context): Boolean {
+        return when (context.resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_YES -> true
+            else -> false
         }
     }
 }

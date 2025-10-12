@@ -1,11 +1,15 @@
 package com.example.cryptoassistant.ui.home
 
+import android.content.Context
+import android.content.res.Configuration
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cryptoassistant.R
 import com.example.cryptoassistant.api.crypronews.CryptoNewsItem
 import com.example.cryptoassistant.api.cryptoprice.CryptoItem
 import com.example.cryptoassistant.databinding.ItemHomeCryptotopsBinding
@@ -25,6 +29,16 @@ class HomeCryptoNewsAdapter: ListAdapter<CryptoNewsItem, HomeCryptoNewsAdapter.H
 
             binding.root.setOnClickListener {
                 onItemClick?.invoke(crypto)
+            }
+
+            if (isSystemInDarkTheme(itemView.context)) {
+                binding.resourceName.setTextColor(ContextCompat.getColor(
+                    itemView.context,
+                    R.color.purple_500))
+
+                binding.cryptoNewsTitle.setTextColor(ContextCompat.getColor(
+                    itemView.context,
+                    R.color.boldTextNightTheme))
             }
         }
     }
@@ -58,6 +72,14 @@ class HomeCryptoNewsAdapter: ListAdapter<CryptoNewsItem, HomeCryptoNewsAdapter.H
             override fun areContentsTheSame(oldItem: CryptoNewsItem, newItem: CryptoNewsItem): Boolean {
                 return oldItem == newItem
             }
+        }
+    }
+
+    fun isSystemInDarkTheme(context: Context): Boolean {
+        return when (context.resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_YES -> true
+            else -> false
         }
     }
 }

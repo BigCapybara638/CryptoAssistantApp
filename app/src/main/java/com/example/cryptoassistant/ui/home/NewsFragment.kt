@@ -1,5 +1,7 @@
 package com.example.cryptoassistant.ui.home
 
+import android.content.Context
+import android.content.res.Configuration
 import android.os.Bundle
 import android.text.style.URLSpan
 import com.example.cryptoassistant.R
@@ -8,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.cryptoassistant.databinding.FragmentNewsBinding
@@ -40,9 +43,23 @@ class NewsFragment : Fragment() {
         val sourceName = arguments?.getString("news_source") ?: "Отсутствует"
         val url = arguments?.getString("news_url") ?: "Отсутствует ссылка"
 
+
         binding.newsTitle.text = title
         binding.newsBody.text = body
         binding.newsSource.text = "Источник: ${sourceName}"
+
+        if (isSystemInDarkTheme(requireContext())) {
+            (activity as AppCompatActivity).supportActionBar?.title = ""
+
+
+            binding.newsSource.setTextColor(ContextCompat.getColor(
+                requireContext(),
+                R.color.purple_500))
+
+            binding.newsTitle.setTextColor(ContextCompat.getColor(
+                requireContext(),
+                R.color.boldTextNightTheme))
+        }
 
 
 //        Picasso.get()
@@ -56,5 +73,14 @@ class NewsFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    // Вспомогательная функция для проверки темы
+    fun isSystemInDarkTheme(context: Context): Boolean {
+        return when (context.resources.configuration.uiMode and
+                Configuration.UI_MODE_NIGHT_MASK) {
+            Configuration.UI_MODE_NIGHT_YES -> true
+            else -> false
+        }
     }
 }
