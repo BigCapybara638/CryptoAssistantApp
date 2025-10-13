@@ -19,6 +19,14 @@
             app:launchSingleTop="true"
         />
 
+        <action
+            android:id="@+id/action_first_to_third"
+            app:destination="@id/navigation_crypto"
+            app:popUpTo="@id/navigation_home"
+            app:popUpToInclusive="false"
+            app:launchSingleTop="true"
+            />
+
     </fragment>
 
 
@@ -33,6 +41,14 @@
         android:name="com.example.cryptoassistant.ui.home.NewsFragment"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_news">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_crypto"
+        android:name="com.example.cryptoassistant.ui.home.CryptoFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_crypto">
 
     </fragment>
 

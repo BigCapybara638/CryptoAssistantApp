@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearSnapHelper
 import com.example.cryptoassistant.api.crypronews.CryptoNewsItem
+import com.example.cryptoassistant.api.cryptoprice.CryptoItem
 import com.example.cryptoassistant.databinding.FragmentDashboardBinding
 import com.example.cryptoassistant.databinding.FragmentHomeBinding
 import com.example.cryptoassistant.ui.dashboard.DashboardViewModel
@@ -73,10 +74,29 @@ class HomeFragment : Fragment() {
             layoutManager = LinearLayoutManager(requireContext())
         }
 
+        // клик на криптовалюту
+        cryptoAdapter.onItemClick = { crypto ->
+            openCryptoDetail(crypto)
+        }
+
         // клик на новость
         newsAdapter.onItemClick = { newsItem ->
             openNewsDetail(newsItem)
         }
+    }
+
+    private fun openCryptoDetail(crypto: CryptoItem) {
+        val bundle = Bundle().apply {
+            putString("crypto_name", crypto.name)
+            putString("crypto_symbol", crypto.symbol)
+            putString("crypto_priceUsd", crypto.priceUsd)
+            putString("crypto_percentChange24h", crypto.percentChange24h)
+        }
+
+        findNavController().navigate(
+            R.id.action_first_to_third,
+            bundle)
+
     }
 
     private fun openNewsDetail(newsItem: CryptoNewsItem) {

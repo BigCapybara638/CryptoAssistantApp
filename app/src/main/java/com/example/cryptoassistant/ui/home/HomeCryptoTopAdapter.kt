@@ -9,10 +9,13 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cryptoassistant.api.crypronews.CryptoNewsItem
 import com.example.cryptoassistant.databinding.ItemHomeCryptotopsBinding
 import com.example.cryptoassistant.api.cryptoprice.CryptoItem
 
 class HomeCryptoTopAdapter : ListAdapter<CryptoItem, HomeCryptoTopAdapter.CryptoViewHolder>(DIFF_CALLBACK) {
+
+    var onItemClick: ((CryptoItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CryptoViewHolder {
         // Используем правильное имя binding класса
@@ -35,6 +38,10 @@ class HomeCryptoTopAdapter : ListAdapter<CryptoItem, HomeCryptoTopAdapter.Crypto
             // Используем правильные ID из вашего layout
             binding.cryptoSymbol.text = crypto.symbol
             binding.cryptoName.text = crypto.name
+
+            binding.root.setOnClickListener {
+                onItemClick?.invoke(crypto)
+            }
 
             // Форматируем цену
             val price = crypto.priceUsd.toDoubleOrNull() ?: 0.0
