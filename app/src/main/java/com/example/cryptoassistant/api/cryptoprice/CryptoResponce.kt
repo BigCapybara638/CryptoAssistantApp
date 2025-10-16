@@ -25,9 +25,14 @@ data class CryptoItem(
     @SerializedName("percent_change_24h") val percentChange24h: String,
     @SerializedName("percent_change_1h") val percentChange1h: String,
     @SerializedName("percent_change_7d") val percentChange7d: String,
-    @SerializedName("market_cap_usd") val marketCapUsd: String,
-    @SerializedName("volume24") val volume24: Double,
-    @SerializedName("csupply") val circulatingSupply: String
+    @SerializedName("market_cap_usd") val marketCapUsd: String, // рыночая капитализация
+    @SerializedName("volume24") val volume24: Double,   // объем торгов
+    @SerializedName("csupply") val circulatingSupply: String, // текущее количество монет в обращении
+    @SerializedName("tsupply") val tSupply: String, // общее текущее предложение
+    @SerializedName("msupply") val mSupply: String, // максимальное  предложение
+
+
+
 )
 
 // Глобальная статистика

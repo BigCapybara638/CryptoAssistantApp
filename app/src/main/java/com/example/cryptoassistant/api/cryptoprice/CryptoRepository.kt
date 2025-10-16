@@ -1,7 +1,7 @@
 package com.example.cryptoassistant.api.cryptoprice
 
 import com.example.cryptoassistant.api.RetrofitClient
-
+import java.lang.Math.abs
 class CryptoRepository {
 
     private val apiService = RetrofitClient.coinLoreApiService
@@ -12,7 +12,10 @@ class CryptoRepository {
             println("📡 Getting top $limit cryptos from CoinLore...")
             val response = apiService.getTopCryptos()
             println("✅ Success! Received ${response.data.size} cryptos")
-            response.data.take(limit)
+
+            val comparator = compareByDescending<CryptoItem> { kotlin.math.abs((it.percentChange24h).toDouble()) }
+            response.data.sortedWith(comparator).take(limit)
+
         } catch (e: Exception) {
             println("❌ CoinLore API Error: ${e.message}")
             emptyList()

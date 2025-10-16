@@ -90,7 +90,18 @@ class HomeFragment : Fragment() {
             putString("crypto_name", crypto.name)
             putString("crypto_symbol", crypto.symbol)
             putString("crypto_priceUsd", crypto.priceUsd)
+            putString("crypto_percentChange1h", crypto.percentChange1h)
             putString("crypto_percentChange24h", crypto.percentChange24h)
+            putString("crypto_percentChange7d", crypto.percentChange7d)
+            putString("crypto_symbol", crypto.symbol)
+            putString("crypto_priceUsd", crypto.priceUsd)
+
+            putString("crypto_market_cap", crypto.circulatingSupply)
+            putDouble("crypto_volume24", crypto.volume24)
+            putString("crypto_csupply", crypto.circulatingSupply)
+            putString("crypto_tsupply", crypto.tSupply)
+            putString("crypto_msupply", crypto.mSupply)
+
         }
 
         findNavController().navigate(
