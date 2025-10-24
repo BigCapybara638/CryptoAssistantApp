@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    id("kotlin-kapt")
 }
 
 android {
@@ -47,6 +48,13 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:4.12.0")
     implementation("com.squareup.picasso:picasso:2.8")
 
+    // Room dependencies
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.swiperefreshlayout)
+
+    implementation("com.google.android.material:material:1.11.0")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
