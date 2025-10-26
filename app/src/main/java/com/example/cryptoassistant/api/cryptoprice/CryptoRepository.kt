@@ -1,10 +1,14 @@
 package com.example.cryptoassistant.api.cryptoprice
 
+import android.content.Context
 import com.example.cryptoassistant.api.RetrofitClient
+import com.example.cryptoassistant.api.data.DatabaseRepository
 import java.lang.Math.abs
-class CryptoRepository {
+class CryptoRepository(context: Context) {
 
     private val apiService = RetrofitClient.coinLoreApiService
+    private val DatabaseRepository = DatabaseRepository(context)
+
 
     // Получить топ криптовалют
     suspend fun getTopCryptos(limit: Int = 50): List<CryptoItem> {
@@ -13,12 +17,19 @@ class CryptoRepository {
             val response = apiService.getTopCryptos()
             println("✅ Success! Received ${response.data.size} cryptos")
 
-            val comparator = compareByDescending<CryptoItem> { kotlin.math.abs((it.percentChange24h).toDouble()) }
+            val comparator =
+                compareByDescending<CryptoItem> { kotlin.math.abs((it.percentChange24h).toDouble())
+                }
+            DatabaseRepository.updateCurrency(response.data)
             response.data.sortedWith(comparator).take(limit)
 
         } catch (e: Exception) {
             println("❌ CoinLore API Error: ${e.message}")
-            emptyList()
+            val cache = DatabaseRepository.getCurrencyFromDatabase(limit)
+            return cache
+        // emptyList()
+
+
         }
     }
 
@@ -33,4 +44,5 @@ class CryptoRepository {
             null
         }
     }
+
 }

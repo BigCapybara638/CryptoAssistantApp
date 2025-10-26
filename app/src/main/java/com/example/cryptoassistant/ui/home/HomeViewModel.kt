@@ -1,5 +1,8 @@
 package com.example.cryptoassistant.ui.home
 
+import android.app.Application
+import android.content.Context
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cryptoassistant.api.crypronews.CryptoNewsItem
@@ -12,9 +15,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val cryptoRepository = CryptoRepository()
+    private val cryptoRepository = CryptoRepository(application.applicationContext)
     private val newsRepository = CryptoNewsRepository()
 
     // Состояния для криптовалют
@@ -140,34 +143,6 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    // Отдельные методы для загрузки конкретных данных
-    fun loadCryptosOnly() {
-        viewModelScope.launch {
-            loadCryptos()
-        }
-    }
-
-    fun loadNewsOnly() {
-        viewModelScope.launch {
-            loadNews()
-        }
-    }
-
-    fun loadStatsOnly() {
-        viewModelScope.launch {
-            loadGlobalStats()
-        }
-    }
-
-    // Очистка ошибок
-    fun clearError() {
-        _error.value = null
-    }
-
-    // Retry механизм
-    fun retry() {
-        loadAllData()
-    }
 }
 
 // Универсальное состояние данных

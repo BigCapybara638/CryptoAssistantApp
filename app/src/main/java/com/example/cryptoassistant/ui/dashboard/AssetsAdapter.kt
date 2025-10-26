@@ -1,7 +1,6 @@
-package com.example.cryptoassistant.ui.home
+package com.example.cryptoassistant.ui.dashboard
 
 import android.content.Context
-import com.example.cryptoassistant.R
 import android.content.res.Configuration
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,44 +8,18 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cryptoassistant.databinding.ItemHomeCryptotopsBinding
+import com.example.cryptoassistant.R
 import com.example.cryptoassistant.api.cryptoprice.CryptoItem
+import com.example.cryptoassistant.databinding.ItemAssetsBinding
 
-class HomeCryptoTopAdapter : ListAdapter<CryptoItem, HomeCryptoTopAdapter.CryptoViewHolder>(DIFF_CALLBACK) {
+class AssetsAdapter : ListAdapter<CryptoItem, AssetsAdapter.AssetsViewHolder>(DIFF_CALLBACK) {
 
-    var onItemClick: ((CryptoItem) -> Unit)? = null
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CryptoViewHolder {
-        val binding = ItemHomeCryptotopsBinding.inflate(
-            LayoutInflater.from(parent.context),
-            parent,
-            false
-        )
-        return CryptoViewHolder(binding)
-    }
-
-    override fun onBindViewHolder(holder: CryptoViewHolder, position: Int) {
-        holder.bind(getItem(position))
-    }
-
-    inner class CryptoViewHolder(private val binding: ItemHomeCryptotopsBinding) :
+    inner class AssetsViewHolder(private val binding: ItemAssetsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(crypto: CryptoItem) {
-            binding.cryptoSymbol.text = crypto.symbol
             binding.cryptoName.text = crypto.name
-
-            binding.root.setOnClickListener {
-                onItemClick?.invoke(crypto)
-            }
-
-            // Форматируем цену
-            val price = crypto.priceUsd.toDoubleOrNull() ?: 0.0
-            binding.cryptoPrice.text = if (price < 1) {
-                "$${String.format("%.4f", price)}"
-            } else {
-                "$${String.format("%.2f", price)}"
-            }
+            binding.cryptoPrice.text = "$${crypto.priceUsd}"
 
             // Изменение цены за 24ч
             val change = crypto.percentChange24h.toDoubleOrNull() ?: 0.0
@@ -59,18 +32,6 @@ class HomeCryptoTopAdapter : ListAdapter<CryptoItem, HomeCryptoTopAdapter.Crypto
             val context = binding.root.context
 
             if (isSystemInDarkTheme(context)) {
-
-                binding.cryptoSymbol.setTextColor(
-                    ContextCompat.getColor(context, R.color.boldTextNightTheme)
-                )
-
-                binding.cryptoName.setTextColor(
-                    ContextCompat.getColor(context, R.color.purple_500)
-                )
-
-                binding.cryptoPrice.setTextColor(
-                    ContextCompat.getColor(context, R.color.boldTextNightTheme)
-                )
 
                 if (change >= 0) {
                     binding.cryptoChange.setTextColor(
@@ -111,6 +72,23 @@ class HomeCryptoTopAdapter : ListAdapter<CryptoItem, HomeCryptoTopAdapter.Crypto
         }
     }
 
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): AssetsAdapter.AssetsViewHolder {
+        val binding = ItemAssetsBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
+        return AssetsViewHolder(binding)
+    }
+
+    override fun onBindViewHolder(holder: AssetsAdapter.AssetsViewHolder, position: Int) {
+        holder.bind(getItem(position))
+    }
+
+
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CryptoItem>() {
             override fun areItemsTheSame(oldItem: CryptoItem, newItem: CryptoItem): Boolean {
@@ -130,4 +108,5 @@ class HomeCryptoTopAdapter : ListAdapter<CryptoItem, HomeCryptoTopAdapter.Crypto
             else -> false
         }
     }
+
 }

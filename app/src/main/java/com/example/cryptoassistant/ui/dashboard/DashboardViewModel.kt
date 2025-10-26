@@ -1,13 +1,81 @@
 package com.example.cryptoassistant.ui.dashboard
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.cryptoassistant.api.cryptoprice.CryptoItem
+import com.example.cryptoassistant.api.cryptoprice.CryptoRepository
+import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
-class DashboardViewModel : ViewModel() {
+class DashboardViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "This is dashboard Fragment"
+    private val dashboardCryptoRepository = CryptoRepository(application.applicationContext)
+
+    private val _cryptosState = MutableStateFlow<DataState<List<CryptoItem>>>(DataState.Loading)
+    val cryptosState: StateFlow<DataState<List<CryptoItem>>> = _cryptosState
+
+    private val _isLoading = MutableStateFlow(false)
+    val isLoading: StateFlow<Boolean> = _isLoading
+
+    private val _error = MutableStateFlow<String?>(null)
+    val error: StateFlow<String?> = _error
+
+    private var isInitialLoad = true
+
+    init {
+        println("🚀 DashboardViewModel initialized")
+        loadAllData()
     }
-    val text: LiveData<String> = _text
+
+    fun loadAllData() {
+        viewModelScope.launch {
+            _isLoading.value = true
+            _error.value = null
+
+            try {
+                println("🔄 Starting data loading...")
+                loadCryptos()
+                println("✅ Data loading completed")
+
+            } catch (e: Exception) {
+                println("❌ Error loading data: ${e.message}")
+                _error.value = "Ошибка загрузки: ${e.message}"
+            } finally {
+                _isLoading.value = false
+            }
+        }
+    }
+
+    private suspend fun loadCryptos() {
+        try {
+            _cryptosState.value = DataState.Loading
+            println("📥 Loading cryptos from API...")
+
+            val cryptos = dashboardCryptoRepository.getTopCryptos(5)
+            println("📊 Received ${cryptos.size} cryptos from API")
+
+            cryptos.forEach { crypto ->
+                println("   - ${crypto.name}: ${crypto.priceUsd}")
+            }
+
+            _cryptosState.value = DataState.Success(cryptos)
+
+        } catch (e: Exception) {
+            println("❌ Crypto loading error: ${e.message}")
+            _cryptosState.value = DataState.Error("Ошибка: ${e.message}")
+        }
+    }
+}
+
+// Универсальное состояние данных
+sealed class DataState<out T> {
+    object Loading : DataState<Nothing>()
+    data class Success<T>(val data: T) : DataState<T>()
+    data class Error(val message: String) : DataState<Nothing>()
 }
