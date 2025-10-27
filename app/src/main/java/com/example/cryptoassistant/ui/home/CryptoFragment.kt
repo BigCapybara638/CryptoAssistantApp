@@ -6,24 +6,30 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.cryptoassistant.CryptoChartView
 import com.example.cryptoassistant.R
 import com.example.cryptoassistant.databinding.FragmentCryptoBinding
-import com.example.cryptoassistant.databinding.FragmentDashboardBinding
-import com.example.cryptoassistant.ui.dashboard.DashboardViewModel
 
 
 class CryptoFragment : Fragment() {
-    private var _binding: FragmentCryptoBinding? = null
-    private lateinit var chartView: CryptoChartView
+    companion object {
+        private const val ARG_CRYPTO_NAME = "crypto_name"
+        private const val ARG_CRYPTO_SYMBOL = "crypto_symbol"
+        private const val ARG_CRYPTO_PRICEUSD = "crypto_priceUsd"
+        private const val ARG_CRYPTO_PERCENTCHANGE1H = "crypto_percentChange1h"
+        private const val ARG_CRYPTO_PERCENTCHANGE24H = "crypto_percentChange24h"
+        private const val ARG_CRYPTO_PERCENTCHANGE7D = "crypto_percentChange7d"
+        private const val ARG_CRYPTO_MARKETCAP = "crypto_market_cap"
+        private const val ARG_CRYPTO_VOLUME24 = "crypto_volume24"
+        private const val ARG_CRYPTO_CSUPPLY = "crypto_csupply"
+        private const val ARG_CRYPTO_TSUPPLY = "crypto_tsupply"
+        private const val ARG_CRYPTO_MSUPPLY = "crypto_msupply"
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    }
+
+    private var _binding: FragmentCryptoBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -41,19 +47,23 @@ class CryptoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val nameCrypto = arguments?.getString("crypto_name") ?: "Нет данных"
-        val symbolCrypto = arguments?.getString("crypto_symbol") ?: "Нет данных"
-        val priceUsdCrypto = arguments?.getString("crypto_priceUsd") ?: "Нет данных"
-        val price1h = arguments?.getString("crypto_percentChange1h") ?: "Нет данных"
-        val price24h = arguments?.getString("crypto_percentChange24h") ?: "Нет данных"
-        val price7d = arguments?.getString("crypto_percentChange7d") ?: "Нет данных"
+        // получение данных из HomeFragment
+        val nameCrypto = arguments?.getString(ARG_CRYPTO_NAME) ?: "Нет данных"
+        val symbolCrypto = arguments?.getString(ARG_CRYPTO_SYMBOL) ?: "Нет данных"
+        val priceUsdCrypto = arguments?.getString(ARG_CRYPTO_PRICEUSD) ?: "Нет данных"
+        val price1h = arguments?.getString(ARG_CRYPTO_PERCENTCHANGE1H) ?: "Нет данных"
+        val price24h = arguments?.getString(ARG_CRYPTO_PERCENTCHANGE24H) ?: "Нет данных"
+        val price7d = arguments?.getString(ARG_CRYPTO_PERCENTCHANGE7D) ?: "Нет данных"
+        val marketCap = arguments?.getString(ARG_CRYPTO_MARKETCAP) ?: "Нет данных"
+        val volume24 = arguments?.getString(ARG_CRYPTO_VOLUME24) ?: "Нет данных"
+        val cSupply = arguments?.getString(ARG_CRYPTO_CSUPPLY) ?: "Нет данных"
+        val tSupply = arguments?.getString(ARG_CRYPTO_TSUPPLY) ?: "Нет данных"
+        val mSupply = arguments?.getString(ARG_CRYPTO_MSUPPLY) ?: "Нет данных"
 
-        val marketCap = arguments?.getString("crypto_market_cap") ?: "Нет данных"
-        val volume24 = arguments?.getString("crypto_volume24") ?: "Нет данных"
-        val cSupply = arguments?.getString("crypto_csupply") ?: "Нет данных"
-        val tSupply = arguments?.getString("crypto_tsupply") ?: "Нет данных"
-        val mSupply = arguments?.getString("crypto_msupply") ?: "Нет данных"
+        // установка текста в AppBar
+        (activity as AppCompatActivity).supportActionBar?.title = nameCrypto
 
+        // работа с ценой
         val change = price24h.toDoubleOrNull() ?: 0.0
         val changeText = if (change >= 0) {
             "+${String.format("%.2f", change)}%"
@@ -62,15 +72,15 @@ class CryptoFragment : Fragment() {
             "${String.format("%.2f", change)}%"
         }
 
-        (activity as AppCompatActivity).supportActionBar?.title = nameCrypto
-        binding.balanceTextView.text = "Ваш баланс в ${symbolCrypto}"
-
+        // работа с графиком
         val priceHour = priceUsdCrypto.toDouble() + priceUsdCrypto.toDouble() * (price1h.toDouble() / 100)
         val priceDay = priceUsdCrypto.toDouble() + priceUsdCrypto.toDouble() * (price24h.toDouble() / 100)
         val priceWeek = priceUsdCrypto.toDouble() + priceUsdCrypto.toDouble() * (price7d.toDouble() / 100)
-
         val sampleData = listOf(priceWeek, priceDay, priceHour)
         binding.lineChart.setData(sampleData)
+
+        // работа с балансом
+        binding.balanceTextView.text = "Ваш баланс в ${symbolCrypto}"
 
         // основной блок
         binding.cryptoFullName.text = nameCrypto
@@ -85,6 +95,7 @@ class CryptoFragment : Fragment() {
         binding.marketCapUsd.text = "$${marketCap}"
         binding.volume24.text = "$${volume24}"
 
+        // работа с процентом изменения цены
         if (change >= 0) {
             binding.cryptoChange.setBackgroundColor(ContextCompat.getColor(
                 requireContext(),
@@ -106,7 +117,7 @@ class CryptoFragment : Fragment() {
 
         }
 
-
+        // для темной темы
         if (isSystemInDarkTheme(requireContext())) {
             binding.cryptoIndex.setTextColor(ContextCompat.getColor(
                 requireContext(),
@@ -135,7 +146,6 @@ class CryptoFragment : Fragment() {
             binding.mSupply.setTextColor(ContextCompat.getColor(
                 requireContext(),
                 R.color.boldTextNightTheme))
-
         }
 
     }

@@ -1,33 +1,22 @@
 package com.example.cryptoassistant.ui.home
 
-
-import android.content.Context
-import android.content.res.Configuration
 import com.example.cryptoassistant.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.LinearSnapHelper
 import com.example.cryptoassistant.api.crypronews.CryptoNewsItem
 import com.example.cryptoassistant.api.cryptoprice.CryptoItem
-import com.example.cryptoassistant.databinding.FragmentDashboardBinding
 import com.example.cryptoassistant.databinding.FragmentHomeBinding
-import com.example.cryptoassistant.ui.dashboard.DashboardViewModel
 import kotlinx.coroutines.launch
 
 class HomeFragment : Fragment() {
-
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
@@ -53,22 +42,15 @@ class HomeFragment : Fragment() {
 
     }
 
-    fun isSystemInDarkTheme(context: Context): Boolean {
-        return when (context.resources.configuration.uiMode and
-                Configuration.UI_MODE_NIGHT_MASK) {
-            Configuration.UI_MODE_NIGHT_YES -> true
-            else -> false
-        }
-    }
-
+    // настройка RecycleView
     private fun setupRecyclerViews() {
-        // Криптовалюты - горизонтально
+        // криптовалюты - горизонтально
         binding.cryptoTopRecyclerView.apply {
             adapter = cryptoAdapter
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
 
-        // Новости - вертикально
+        // новости - вертикально
         binding.cryptoNewsRecyclerView.apply {
             adapter = newsAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -85,6 +67,7 @@ class HomeFragment : Fragment() {
         }
     }
 
+    // переход в CryptoFragment
     private fun openCryptoDetail(crypto: CryptoItem) {
         val bundle = Bundle().apply {
             putString("crypto_name", crypto.name)
@@ -95,8 +78,7 @@ class HomeFragment : Fragment() {
             putString("crypto_percentChange7d", crypto.percentChange7d)
             putString("crypto_symbol", crypto.symbol)
             putString("crypto_priceUsd", crypto.priceUsd)
-
-            putString("crypto_market_cap", crypto.circulatingSupply)
+            putString("crypto_market_cap", crypto.marketCapUsd)
             putDouble("crypto_volume24", crypto.volume24)
             putString("crypto_csupply", crypto.circulatingSupply)
             putString("crypto_tsupply", crypto.tSupply)
@@ -110,13 +92,12 @@ class HomeFragment : Fragment() {
 
     }
 
+    // переход в NewsFragment
     private fun openNewsDetail(newsItem: CryptoNewsItem) {
         val bundle = Bundle().apply {
             putString("news_title", newsItem.title)
             putString("news_body", newsItem.body)
-            putString("news_image", newsItem.imageUrl)
             putString("news_source", newsItem.sourceData?.sourceName)
-            putString("news_url", newsItem.url)
         }
 
         findNavController().navigate(
@@ -125,8 +106,9 @@ class HomeFragment : Fragment() {
 
     }
 
+    // загрузка данных и состояние
     private fun setupObservers() {
-        // Криптовалюты - используем cryptosState
+        // криптовалюты - используем cryptosState
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.cryptosState.collect { state ->
                 when (state) {
@@ -144,7 +126,7 @@ class HomeFragment : Fragment() {
             }
         }
 
-        // Новости - используем newsState
+        // новости - используем newsState
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.newsState.collect { state ->
                 when (state) {
@@ -162,29 +144,19 @@ class HomeFragment : Fragment() {
             }
         }
 
-        // Общая загрузка
+        // общая загрузка
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.isLoading.collect { isLoading ->
                 binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             }
         }
 
-        // Общие ошибки
+        // общие ошибки
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.error.collect { error ->
                 error?.let {
                     Toast.makeText(requireContext(), it, Toast.LENGTH_LONG).show()
                     println("❌ Error: $it")
-                }
-            }
-        }
-
-        // Обновление данных
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.isRefreshing.collect { isRefreshing ->
-                // Можно добавить индикатор обновления если нужно
-                if (isRefreshing) {
-                    println("🔄 Refreshing data...")
                 }
             }
         }

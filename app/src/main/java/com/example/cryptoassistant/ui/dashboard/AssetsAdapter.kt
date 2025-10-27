@@ -14,6 +14,9 @@ import com.example.cryptoassistant.databinding.ItemAssetsBinding
 
 class AssetsAdapter : ListAdapter<CryptoItem, AssetsAdapter.AssetsViewHolder>(DIFF_CALLBACK) {
 
+    //  обьявление лямбды
+    var onItemClick: ((CryptoItem) -> Unit)? = null
+
     inner class AssetsViewHolder(private val binding: ItemAssetsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
@@ -21,14 +24,18 @@ class AssetsAdapter : ListAdapter<CryptoItem, AssetsAdapter.AssetsViewHolder>(DI
             binding.cryptoName.text = crypto.name
             binding.cryptoPrice.text = "$${crypto.priceUsd}"
 
-            // Изменение цены за 24ч
+            binding.root.setOnClickListener {
+                onItemClick?.invoke(crypto)
+            }
+
+            // изменение цены за 24ч
             val change = crypto.percentChange24h.toDoubleOrNull() ?: 0.0
             val changeText = if (change >= 0) "+${String.format("%.2f", change)}%"
             else "${String.format("%.2f", change)}%"
 
             binding.cryptoChange.text = changeText
 
-            // Цвет в зависимости от изменения цены
+            // цвет в зависимости от изменения цены
             val context = binding.root.context
 
             if (isSystemInDarkTheme(context)) {

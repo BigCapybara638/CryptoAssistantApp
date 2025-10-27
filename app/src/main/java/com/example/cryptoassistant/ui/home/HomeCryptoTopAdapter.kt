@@ -14,6 +14,7 @@ import com.example.cryptoassistant.api.cryptoprice.CryptoItem
 
 class HomeCryptoTopAdapter : ListAdapter<CryptoItem, HomeCryptoTopAdapter.CryptoViewHolder>(DIFF_CALLBACK) {
 
+    // обьявление лямбды
     var onItemClick: ((CryptoItem) -> Unit)? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CryptoViewHolder {
@@ -40,7 +41,7 @@ class HomeCryptoTopAdapter : ListAdapter<CryptoItem, HomeCryptoTopAdapter.Crypto
                 onItemClick?.invoke(crypto)
             }
 
-            // Форматируем цену
+            // форматируем цену
             val price = crypto.priceUsd.toDoubleOrNull() ?: 0.0
             binding.cryptoPrice.text = if (price < 1) {
                 "$${String.format("%.4f", price)}"
@@ -48,16 +49,17 @@ class HomeCryptoTopAdapter : ListAdapter<CryptoItem, HomeCryptoTopAdapter.Crypto
                 "$${String.format("%.2f", price)}"
             }
 
-            // Изменение цены за 24ч
+            // изменение цены за 24ч
             val change = crypto.percentChange24h.toDoubleOrNull() ?: 0.0
             val changeText = if (change >= 0) "+${String.format("%.2f", change)}%"
             else "${String.format("%.2f", change)}%"
 
             binding.cryptoChange.text = changeText
 
-            // Цвет в зависимости от изменения цены
+            // цвет в зависимости от изменения цены
             val context = binding.root.context
 
+            // для темной темы
             if (isSystemInDarkTheme(context)) {
 
                 binding.cryptoSymbol.setTextColor(
@@ -111,6 +113,7 @@ class HomeCryptoTopAdapter : ListAdapter<CryptoItem, HomeCryptoTopAdapter.Crypto
         }
     }
 
+    // DiffUtil для обновления списка
     companion object {
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CryptoItem>() {
             override fun areItemsTheSame(oldItem: CryptoItem, newItem: CryptoItem): Boolean {

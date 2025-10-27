@@ -4,19 +4,17 @@ import android.content.Context
 import android.content.res.Configuration
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoassistant.R
 import com.example.cryptoassistant.api.crypronews.CryptoNewsItem
-import com.example.cryptoassistant.api.cryptoprice.CryptoItem
-import com.example.cryptoassistant.databinding.ItemHomeCryptotopsBinding
 import com.example.cryptoassistant.databinding.ItemHomeNewsBinding
 
 class HomeCryptoNewsAdapter: ListAdapter<CryptoNewsItem, HomeCryptoNewsAdapter.HomeCryptoNewsViewHolder>(DIFF_CALLBACK) {
 
+    // обьявление лямбды
     var onItemClick: ((CryptoNewsItem) -> Unit)? = null
     inner class HomeCryptoNewsViewHolder(private val binding: ItemHomeNewsBinding) :
         RecyclerView.ViewHolder(binding.root) {

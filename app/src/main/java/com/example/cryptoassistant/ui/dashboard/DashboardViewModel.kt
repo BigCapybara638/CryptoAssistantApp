@@ -2,13 +2,9 @@ package com.example.cryptoassistant.ui.dashboard
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cryptoassistant.api.cryptoprice.CryptoItem
 import com.example.cryptoassistant.api.cryptoprice.CryptoRepository
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -17,22 +13,23 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
 
     private val dashboardCryptoRepository = CryptoRepository(application.applicationContext)
 
+    // состояния для криптовалют
     private val _cryptosState = MutableStateFlow<DataState<List<CryptoItem>>>(DataState.Loading)
     val cryptosState: StateFlow<DataState<List<CryptoItem>>> = _cryptosState
 
+    // общее состояние загрузки
     private val _isLoading = MutableStateFlow(false)
     val isLoading: StateFlow<Boolean> = _isLoading
 
+    // общее состояние ошибки
     private val _error = MutableStateFlow<String?>(null)
     val error: StateFlow<String?> = _error
 
-    private var isInitialLoad = true
-
     init {
-        println("🚀 DashboardViewModel initialized")
         loadAllData()
     }
 
+    // вся загрузка
     fun loadAllData() {
         viewModelScope.launch {
             _isLoading.value = true
@@ -52,6 +49,7 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
+    // загрузка криптовалют
     private suspend fun loadCryptos() {
         try {
             _cryptosState.value = DataState.Loading
@@ -73,7 +71,7 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
     }
 }
 
-// Универсальное состояние данных
+// универсальное состояние данных
 sealed class DataState<out T> {
     object Loading : DataState<Nothing>()
     data class Success<T>(val data: T) : DataState<T>()

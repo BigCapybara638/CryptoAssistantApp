@@ -19,10 +19,13 @@ import com.squareup.picasso.Picasso
 
 
 class NewsFragment : Fragment() {
-    private var _binding: FragmentNewsBinding? = null
+    companion object {
+        private const val ARG_NEWS_TITLE = "news_title"
+        private const val ARG_NEWS_BODY = "news_body"
+        private const val ARG_NEWS_SOURCE = "news_source"
+    }
 
-// This property is only valid between onCreateView and
-// onDestroyView.
+    private var _binding: FragmentNewsBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -31,26 +34,40 @@ class NewsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-
         _binding = FragmentNewsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        return root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // установка текста в AppBar
         (activity as AppCompatActivity).supportActionBar?.title = "Новости"
 
-        val title = arguments?.getString("news_title") ?: "Нет заголовка"
-        val body = arguments?.getString("news_body") ?: "Отсутствует информация"
-        val newsUrl = arguments?.getString("news_image") ?: "Отсутствует изображение"
-        val sourceName = arguments?.getString("news_source") ?: "Отсутствует"
-        val url = arguments?.getString("news_url") ?: "Отсутствует ссылка"
+        setupNewsContent()
+    }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+    // наполнение фрагмента данными
+    private fun setupNewsContent() {
+        // получение аргументов из HomeFragment
+        val title = arguments?.getString(ARG_NEWS_TITLE) ?: "Нет заголовка"
+        val body = arguments?.getString(ARG_NEWS_BODY) ?: "Отсутствует информация"
+        val sourceName = arguments?.getString(ARG_NEWS_SOURCE) ?: "Отсутствует"
 
         binding.newsTitle.text = title
         binding.newsBody.text = body
         binding.newsSource.text = "Источник: ${sourceName}"
 
+        // для темной темы
         if (isSystemInDarkTheme(requireContext())) {
             (activity as AppCompatActivity).supportActionBar?.title = ""
-
 
             binding.newsSource.setTextColor(ContextCompat.getColor(
                 requireContext(),
@@ -60,22 +77,9 @@ class NewsFragment : Fragment() {
                 requireContext(),
                 R.color.boldTextNightTheme))
         }
-
-
-//        Picasso.get()
-//            .load(newsUrl)
-//            .placeholder(R.drawable.ic_crypto) // заглушка на время загрузки
-//            .into(binding.newsImageView)
-
-        return root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    // Вспомогательная функция для проверки темы
+    // вспомогательная функция для проверки темы
     fun isSystemInDarkTheme(context: Context): Boolean {
         return when (context.resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK) {

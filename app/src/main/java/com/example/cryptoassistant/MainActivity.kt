@@ -32,8 +32,8 @@ class MainActivity : AppCompatActivity() {
             .findFragmentById(R.id.nav_host_fragment_activity_main) as NavHostFragment
 
 
-        navController = navHostFragment.navController        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        navController = navHostFragment.navController
+
         val appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home, R.id.navigation_dashboard
@@ -44,6 +44,7 @@ class MainActivity : AppCompatActivity() {
         navView.setupWithNavController(navController)
 
 
+        // изменение цвета линии над нижним меню
         if (isSystemInDarkTheme(this)) {
             binding.topLine.setBackgroundColor(
                 ContextCompat.getColor(
@@ -53,12 +54,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    // обработка нажатия на кнопку "Назад"
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
 
-    // Вспомогательная функция для проверки темы
+    // вспомогательная функция для проверки темы
     fun isSystemInDarkTheme(context: Context): Boolean {
         return when (context.resources.configuration.uiMode and
                 Configuration.UI_MODE_NIGHT_MASK) {
@@ -67,3 +69,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+

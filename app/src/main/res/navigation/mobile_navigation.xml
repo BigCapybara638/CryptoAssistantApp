@@ -34,7 +34,17 @@
         android:id="@+id/navigation_dashboard"
         android:name="com.example.cryptoassistant.ui.dashboard.DashboardFragment"
         android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_dashboard">
+
+        <action
+            android:id="@+id/action_four_to_first"
+            app:destination="@id/navigation_crypto"
+            app:popUpTo="@id/navigation_dashboard"
+            app:popUpToInclusive="false"
+            app:launchSingleTop="true"
+            />
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_news"
