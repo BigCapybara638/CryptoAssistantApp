@@ -10,73 +10,92 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoassistant.R
 import com.example.cryptoassistant.api.cryptoprice.CryptoItem
+import com.example.cryptoassistant.api.data.AssetResult
+import com.example.cryptoassistant.api.data.AssetsEntity
 import com.example.cryptoassistant.databinding.ItemAssetsBinding
 
-class AssetsAdapter : ListAdapter<CryptoItem, AssetsAdapter.AssetsViewHolder>(DIFF_CALLBACK) {
+class AssetsAdapter : ListAdapter<AssetResult, AssetsAdapter.AssetsViewHolder>(DIFF_CALLBACK) {
 
     //  обьявление лямбды
-    var onItemClick: ((CryptoItem) -> Unit)? = null
+    var onItemClick: ((AssetResult) -> Unit)? = null
 
     inner class AssetsViewHolder(private val binding: ItemAssetsBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(crypto: CryptoItem) {
-            binding.cryptoName.text = crypto.name
-            binding.cryptoPrice.text = "$${crypto.priceUsd}"
+        fun bind(crypto: AssetResult) {
+            val context = binding.root.context
+
+            val amount = crypto.amount
+            val price = crypto.price
+            val count = amount / price
+            val actualPrice = count * crypto.asset.priceUsd.toDouble()
+
+
+            binding.assetAmount.text = try {
+                "$${"%.5f".format(actualPrice)}"
+            } catch (e: Exception) {
+                "$0.0000"
+            }
+
+            binding.assetCount.text = try {
+                "${"%.5f".format(count)}"
+            } catch (e: Exception) {
+                "$0.0000"
+            }
+
+            val changeAsset = actualPrice - amount
+            if (changeAsset > 0) {
+                binding.assetChange.text = "+${"%.2f".format(changeAsset)}"
+                binding.assetChange.setTextColor(
+                    ContextCompat.getColor(context, android.R.color.holo_green_dark)
+                )
+
+                binding.assetChange.setBackgroundColor(
+                    ContextCompat.getColor(context, R.color.greenBlack)
+                )
+            } else {
+                binding.assetChange.text = "${"%.2f".format(changeAsset)}"
+                binding.assetChange.setTextColor(
+                    ContextCompat.getColor(context, android.R.color.holo_red_dark)
+                )
+                binding.assetChange.setBackgroundColor(
+                    ContextCompat.getColor(context, R.color.redBlack)
+
+                )
+            }
+
+            binding.cryptoName.text = crypto.asset.name
+            binding.cryptoPrice.text = "$${crypto.asset.priceUsd}"
 
             binding.root.setOnClickListener {
                 onItemClick?.invoke(crypto)
             }
 
             // изменение цены за 24ч
-            val change = crypto.percentChange24h.toDoubleOrNull() ?: 0.0
+            val change = crypto.asset.percentChange24h.toDoubleOrNull() ?: 0.0
             val changeText = if (change >= 0) "+${String.format("%.2f", change)}%"
             else "${String.format("%.2f", change)}%"
 
             binding.cryptoChange.text = changeText
 
-            // цвет в зависимости от изменения цены
-            val context = binding.root.context
 
-            if (isSystemInDarkTheme(context)) {
-
-                if (change >= 0) {
-                    binding.cryptoChange.setTextColor(
-                        ContextCompat.getColor(context, android.R.color.holo_green_dark)
-                    )
-
-                    binding.cryptoChange.setBackgroundColor(
-                        ContextCompat.getColor(context, R.color.greenBlack)
-                    )
-                } else {
-                    binding.cryptoChange.setTextColor(
-                        ContextCompat.getColor(context, android.R.color.holo_red_dark)
-                    )
-                    binding.cryptoChange.setBackgroundColor(
-                        ContextCompat.getColor(context, R.color.redBlack)
-
-                    )
-                }
+            if (change >= 0) {
+                binding.cryptoChange.setTextColor(
+                    ContextCompat.getColor(context, android.R.color.holo_green_dark)
+                )
+                binding.cryptoChange.setBackgroundColor(
+                    ContextCompat.getColor(context, R.color.greenBlack)
+                )
             } else {
-                if (change >= 0) {
-                    binding.cryptoChange.setTextColor(
-                        ContextCompat.getColor(context, android.R.color.holo_green_dark)
-                    )
-
-                    binding.cryptoChange.setBackgroundColor(
-                        ContextCompat.getColor(context, android.R.color.holo_green_light)
-                    )
-                } else {
-                    binding.cryptoChange.setTextColor(
-                        ContextCompat.getColor(context, android.R.color.holo_red_dark)
-                    )
-                    binding.cryptoChange.setBackgroundColor(
-                        ContextCompat.getColor(context, android.R.color.holo_red_light)
-
-                    )
-                }
+                binding.cryptoChange.setTextColor(
+                    ContextCompat.getColor(context, android.R.color.holo_red_dark)
+                )
+                binding.cryptoChange.setBackgroundColor(
+                    ContextCompat.getColor(context, R.color.redBlack)
+                )
             }
         }
+
     }
 
     override fun onCreateViewHolder(
@@ -97,12 +116,12 @@ class AssetsAdapter : ListAdapter<CryptoItem, AssetsAdapter.AssetsViewHolder>(DI
 
 
     companion object {
-        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CryptoItem>() {
-            override fun areItemsTheSame(oldItem: CryptoItem, newItem: CryptoItem): Boolean {
-                return oldItem.id == newItem.id
+        private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<AssetResult>() {
+            override fun areItemsTheSame(oldItem: AssetResult, newItem: AssetResult): Boolean {
+                return oldItem.asset.id == newItem.asset.id
             }
 
-            override fun areContentsTheSame(oldItem: CryptoItem, newItem: CryptoItem): Boolean {
+            override fun areContentsTheSame(oldItem: AssetResult, newItem: AssetResult): Boolean {
                 return oldItem == newItem
             }
         }

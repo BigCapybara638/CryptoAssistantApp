@@ -15,15 +15,39 @@
         android:layout_marginBottom="16dp" />
 
     <EditText
+        android:id="@+id/editTicker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Введите тикер (BTC, ETH  тд)"
         android:layout_marginBottom="16dp" />
 
     <EditText
+        android:id="@+id/editSum"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Введите сумму покупки"
+        android:layout_marginBottom="16dp" />
+
+    <EditText
+        android:id="@+id/editCurrent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Введите курс на момент покупки"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/editCount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Или"
+        android:textSize="16sp"
+        android:textStyle="italic"
+        android:layout_marginHorizontal="4dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Введите количество полученных токенов"
         android:layout_marginBottom="16dp" />
 
 

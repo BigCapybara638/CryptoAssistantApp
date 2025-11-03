@@ -22,6 +22,9 @@ interface AssetsDao {
     @Query("SELECT * FROM assets WHERE idCrypto = :assetId")
     suspend fun getAssetById(assetId: String): AssetsEntity?
 
+    @Query("SELECT * FROM cryptoCurrency JOIN assets ON cryptoCurrency.symbol = assets.idCrypto")
+    suspend fun getAssetsAll() : List<AssetResult>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAssets(assets: List<AssetsEntity>)
 

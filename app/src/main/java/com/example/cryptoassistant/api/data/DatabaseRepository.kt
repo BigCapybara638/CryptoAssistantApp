@@ -52,6 +52,20 @@ class DatabaseRepository(context: Context) {
             emptyList()
         }
     }
+
+    suspend fun getAssetsAll() : List<AssetResult> {
+        val result = dao.getAssetsAll()
+        return result
+    }
+
+    suspend fun insertAssets(assets: List<AssetsEntity>) {
+        dao.insertAssets(assets)
+    }
+
+    suspend fun getAssetById(assetId: String) : AssetsEntity? {
+        val result = dao.getAssetById(assetId)
+        return result
+    }
 }
 
 

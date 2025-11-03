@@ -2,6 +2,8 @@ package com.example.cryptoassistant.api.cryptoprice
 
 import android.content.Context
 import com.example.cryptoassistant.api.RetrofitClient
+import com.example.cryptoassistant.api.data.AssetResult
+import com.example.cryptoassistant.api.data.AssetsEntity
 import com.example.cryptoassistant.api.data.DatabaseRepository
 import java.lang.Math.abs
 class CryptoRepository(context: Context) {
@@ -43,6 +45,15 @@ class CryptoRepository(context: Context) {
             println("❌ Global stats error: ${e.message}")
             null
         }
+    }
+
+    suspend fun insertAssets(assets: List<AssetsEntity>) {
+        DatabaseRepository.insertAssets(assets)
+    }
+
+    suspend fun getAssetAll() : List<AssetResult> {
+        val result = DatabaseRepository.getAssetsAll()
+        return result
     }
 
 }

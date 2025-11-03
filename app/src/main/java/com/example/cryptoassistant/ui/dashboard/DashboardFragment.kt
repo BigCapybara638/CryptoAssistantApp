@@ -12,6 +12,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoassistant.R
 import com.example.cryptoassistant.api.cryptoprice.CryptoItem
+import com.example.cryptoassistant.api.data.AssetResult
+import com.example.cryptoassistant.api.data.AssetsEntity
+import com.example.cryptoassistant.databinding.DialogBottomSheetBinding
 import com.example.cryptoassistant.databinding.FragmentDashboardBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.launch
@@ -109,21 +112,21 @@ class DashboardFragment : Fragment() {
     }
 
     // переход в CryptoDetail
-    private fun openCryptoDetail(crypto: CryptoItem) {
+    private fun openCryptoDetail(crypto: AssetResult) {
         val bundle = Bundle().apply {
-            putString("crypto_name", crypto.name)
-            putString("crypto_symbol", crypto.symbol)
-            putString("crypto_priceUsd", crypto.priceUsd)
-            putString("crypto_percentChange1h", crypto.percentChange1h)
-            putString("crypto_percentChange24h", crypto.percentChange24h)
-            putString("crypto_percentChange7d", crypto.percentChange7d)
-            putString("crypto_symbol", crypto.symbol)
-            putString("crypto_priceUsd", crypto.priceUsd)
-            putString("crypto_market_cap", crypto.marketCapUsd)
-            putDouble("crypto_volume24", crypto.volume24)
-            putString("crypto_csupply", crypto.circulatingSupply)
-            putString("crypto_tsupply", crypto.tSupply)
-            putString("crypto_msupply", crypto.mSupply)
+            putString("crypto_name", crypto.asset.name)
+            putString("crypto_symbol", crypto.asset.symbol)
+            putString("crypto_priceUsd", crypto.asset.priceUsd)
+            putString("crypto_percentChange1h", crypto.asset.percentChange1h)
+            putString("crypto_percentChange24h", crypto.asset.percentChange24h)
+            putString("crypto_percentChange7d", crypto.asset.percentChange7d)
+            putString("crypto_symbol", crypto.asset.symbol)
+            putString("crypto_priceUsd", crypto.asset.priceUsd)
+            putString("crypto_market_cap", crypto.asset.marketCapUsd)
+            putDouble("crypto_volume24", crypto.asset.volume24)
+            putString("crypto_csupply", crypto.asset.circulatingSupply)
+            putString("crypto_tsupply", crypto.asset.tSupply)
+            putString("crypto_msupply", crypto.asset.mSupply)
 
         }
 
@@ -134,13 +137,39 @@ class DashboardFragment : Fragment() {
     }
 
     // диалог для добавления активов
-    fun showMaterialBottomSheet() {
+    private fun showMaterialBottomSheet() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
-        bottomSheetDialog.setContentView(R.layout.dialog_bottom_sheet)
+        val dialogBinding = DialogBottomSheetBinding.inflate(
+            LayoutInflater.from(requireContext()))
+        bottomSheetDialog.setContentView(dialogBinding.root)
 
-        // Настройка скругленных углов
-        bottomSheetDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
+
+        dialogBinding.btnConfirm.setOnClickListener {
+            val ticker = dialogBinding.editTicker.text.toString()
+            val stringSum = dialogBinding.editSum.text.toString()
+            val sum = stringSum.toDouble()
+            val stringCurrent = dialogBinding.editCurrent.text.toString()
+            val current = stringCurrent.toDouble()
+
+            val listAssets = mutableListOf<AssetsEntity>()
+            val asset = AssetsEntity(
+                idCrypto = ticker,
+                amount = sum,
+                price = current
+            )
+
+            listAssets.add(asset)
+
+            viewModel.insertAssets(listAssets)
+            bottomSheetDialog.dismiss()
+            viewModel.loadAllData()
+        }
+
+        dialogBinding.btnCancel.setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
 
         bottomSheetDialog.show()
     }
+
 }

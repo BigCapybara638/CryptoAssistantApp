@@ -1,5 +1,6 @@
 package com.example.cryptoassistant.api.data
 
+import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -31,3 +32,9 @@ data class CryptoCurrencyEntity(
     constructor() : this("", "", "", "", 0, "", "", "", "", "", 0.0, "", "", "")
 }
 
+data class AssetResult(
+    @Embedded
+    val asset: CryptoCurrencyEntity,
+    val price: Double,
+    val amount: Double
+)

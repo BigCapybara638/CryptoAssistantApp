@@ -5,6 +5,9 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cryptoassistant.api.cryptoprice.CryptoItem
 import com.example.cryptoassistant.api.cryptoprice.CryptoRepository
+import com.example.cryptoassistant.api.data.AssetResult
+import com.example.cryptoassistant.api.data.AssetsEntity
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -14,8 +17,8 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
     private val dashboardCryptoRepository = CryptoRepository(application.applicationContext)
 
     // состояния для криптовалют
-    private val _cryptosState = MutableStateFlow<DataState<List<CryptoItem>>>(DataState.Loading)
-    val cryptosState: StateFlow<DataState<List<CryptoItem>>> = _cryptosState
+    private val _cryptosState = MutableStateFlow<DataState<List<AssetResult>>>(DataState.Loading)
+    val cryptosState: StateFlow<DataState<List<AssetResult>>> = _cryptosState
 
     // общее состояние загрузки
     private val _isLoading = MutableStateFlow(false)
@@ -55,12 +58,12 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             _cryptosState.value = DataState.Loading
             println("📥 Loading cryptos from API...")
 
-            val cryptos = dashboardCryptoRepository.getTopCryptos(5)
+            val cryptos = dashboardCryptoRepository.getAssetAll()
             println("📊 Received ${cryptos.size} cryptos from API")
 
-            cryptos.forEach { crypto ->
-                println("   - ${crypto.name}: ${crypto.priceUsd}")
-            }
+//            cryptos.forEach { crypto ->
+//                println("   - ${crypto.name}: ${crypto.priceUsd}")
+//            }
 
             _cryptosState.value = DataState.Success(cryptos)
 
@@ -69,6 +72,19 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             _cryptosState.value = DataState.Error("Ошибка: ${e.message}")
         }
     }
+
+    fun insertAssets(assets: List<AssetsEntity>) {
+        viewModelScope.launch {
+            dashboardCryptoRepository.insertAssets(assets)
+        }
+    }
+
+//    suspend fun getAmountAsset(assetId: String) : AssetsEntity? {
+//        viewModelScope.launch {
+//            val result = dashboardCryptoRepository.getAssetById(assetId)
+//            return result
+//        }
+//    }
 }
 
 // универсальное состояние данных
