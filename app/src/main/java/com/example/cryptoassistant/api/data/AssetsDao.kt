@@ -22,8 +22,11 @@ interface AssetsDao {
     @Query("SELECT * FROM assets WHERE idCrypto = :assetId")
     suspend fun getAssetById(assetId: String): AssetsEntity?
 
-    @Query("SELECT * FROM cryptoCurrency JOIN assets ON cryptoCurrency.symbol = assets.idCrypto")
+    @Query("""SELECT cryptoCurrency.*, SUM(assets.amount * assets.price)/SUM(assets.amount) as price, SUM(assets.amount) as amount FROM cryptoCurrency JOIN assets ON cryptoCurrency.symbol = assets.idCrypto GROUP BY name""")
     suspend fun getAssetsAll() : List<AssetResult>
+
+    @Query("SELECT SUM(assets.amount) as count, AVG(assets.price) as price, cryptocurrency.priceUsd as newCurrent FROM assets JOIN cryptoCurrency ON assets.idCrypto = cryptoCurrency.symbol GROUP BY idCrypto")
+    suspend fun getBalance() : List<BalanceResult>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAssets(assets: List<AssetsEntity>)

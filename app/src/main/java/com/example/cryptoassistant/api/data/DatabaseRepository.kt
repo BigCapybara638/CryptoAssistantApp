@@ -62,9 +62,8 @@ class DatabaseRepository(context: Context) {
         dao.insertAssets(assets)
     }
 
-    suspend fun getAssetById(assetId: String) : AssetsEntity? {
-        val result = dao.getAssetById(assetId)
-        return result
+    suspend fun getBalance() : List<BalanceResult> {
+        return dao.getBalance()
     }
 }
 

@@ -5,9 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoassistant.R
@@ -15,6 +18,7 @@ import com.example.cryptoassistant.api.cryptoprice.CryptoItem
 import com.example.cryptoassistant.api.data.AssetResult
 import com.example.cryptoassistant.api.data.AssetsEntity
 import com.example.cryptoassistant.databinding.DialogBottomSheetBinding
+import com.example.cryptoassistant.databinding.DialogBottomSheetDeleteBinding
 import com.example.cryptoassistant.databinding.FragmentDashboardBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.launch
@@ -50,7 +54,11 @@ class DashboardFragment : Fragment() {
 
         // нажатие на кнопку "Добавить"
         binding.addAssets.setOnClickListener {
-            showMaterialBottomSheet()
+            showMaterialBottomSheetAdd()
+        }
+
+        binding.deleteAssets.setOnClickListener {
+            showMaterialBottomSheetDelete()
         }
     }
 
@@ -61,6 +69,44 @@ class DashboardFragment : Fragment() {
 
     // общая загрузка и состояние
     private fun setupObservers() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.balance.collect { balance ->
+                    balance?.let {
+                        binding.balance.text = "$${"%.2f".format(it)}"
+                    }
+                }
+            }
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.balanceChange.collect { balanceChange ->
+                    balanceChange?.let {
+                        if (it > 0) {
+                            binding.balanceChange.setTextColor(
+                                ContextCompat.getColor(requireContext(), android.R.color.holo_green_dark)
+                            )
+
+                            binding.balanceChange.setBackgroundColor(
+                                ContextCompat.getColor(requireContext(), R.color.greenBlack)
+                            )}
+                        else {
+                            binding.balanceChange.setTextColor(
+                                ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark)
+                            )
+                            binding.balanceChange.setBackgroundColor(
+                                ContextCompat.getColor(requireContext(), R.color.redBlack)
+
+                            )
+                        }
+                        binding.balanceChange.text = "${"%.2f".format(it)}$"
+                    }
+                }
+            }
+        }
+
+
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.cryptosState.collect { state ->
                 when (state) {
@@ -137,7 +183,7 @@ class DashboardFragment : Fragment() {
     }
 
     // диалог для добавления активов
-    private fun showMaterialBottomSheet() {
+    private fun showMaterialBottomSheetAdd() {
         val bottomSheetDialog = BottomSheetDialog(requireContext())
         val dialogBinding = DialogBottomSheetBinding.inflate(
             LayoutInflater.from(requireContext()))
@@ -154,7 +200,43 @@ class DashboardFragment : Fragment() {
             val listAssets = mutableListOf<AssetsEntity>()
             val asset = AssetsEntity(
                 idCrypto = ticker,
-                amount = sum,
+                amount = sum/current,
+                price = current
+            )
+
+            listAssets.add(asset)
+
+            viewModel.insertAssets(listAssets)
+            bottomSheetDialog.dismiss()
+            viewModel.loadAllData()
+        }
+
+        dialogBinding.btnCancel.setOnClickListener {
+            bottomSheetDialog.dismiss()
+        }
+
+        bottomSheetDialog.show()
+    }
+
+    private fun showMaterialBottomSheetDelete() {
+        val bottomSheetDialog = BottomSheetDialog(requireContext())
+        val dialogBinding = DialogBottomSheetDeleteBinding.inflate(
+            LayoutInflater.from(requireContext()))
+        bottomSheetDialog.setContentView(dialogBinding.root)
+
+
+        dialogBinding.btnConfirm.setOnClickListener {
+            val ticker = dialogBinding.editTicker.text.toString()
+            val stringSum = dialogBinding.editSum.text.toString()
+            val sum = stringSum.toDouble()
+            val stringCurrent = dialogBinding.editCurrent.text.toString()
+            val current = stringCurrent.toDouble()
+
+
+            val listAssets = mutableListOf<AssetsEntity>()
+            val asset = AssetsEntity(
+                idCrypto = ticker,
+                amount = -(sum/current),
                 price = current
             )
 

@@ -25,25 +25,19 @@ class AssetsAdapter : ListAdapter<AssetResult, AssetsAdapter.AssetsViewHolder>(D
         fun bind(crypto: AssetResult) {
             val context = binding.root.context
 
-            val amount = crypto.amount
-            val price = crypto.price
-            val count = amount / price
-            val actualPrice = count * crypto.asset.priceUsd.toDouble()
-
-
             binding.assetAmount.text = try {
-                "$${"%.5f".format(actualPrice)}"
+                "$${"%.5f".format(crypto.asset.priceUsd.toDouble() * crypto.amount)}"
             } catch (e: Exception) {
                 "$0.0000"
             }
 
             binding.assetCount.text = try {
-                "${"%.5f".format(count)}"
+                "${"%.5f".format(crypto.amount)} ${crypto.asset.symbol}"
             } catch (e: Exception) {
                 "$0.0000"
             }
 
-            val changeAsset = actualPrice - amount
+            val changeAsset = (crypto.asset.priceUsd.toDouble() - crypto.price) * crypto.amount
             if (changeAsset > 0) {
                 binding.assetChange.text = "+${"%.2f".format(changeAsset)}"
                 binding.assetChange.setTextColor(
@@ -54,7 +48,7 @@ class AssetsAdapter : ListAdapter<AssetResult, AssetsAdapter.AssetsViewHolder>(D
                     ContextCompat.getColor(context, R.color.greenBlack)
                 )
             } else {
-                binding.assetChange.text = "${"%.2f".format(changeAsset)}"
+                binding.assetChange.text = "-${"%.2f".format(changeAsset)}"
                 binding.assetChange.setTextColor(
                     ContextCompat.getColor(context, android.R.color.holo_red_dark)
                 )

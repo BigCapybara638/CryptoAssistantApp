@@ -7,7 +7,7 @@ import android.content.Context
 
 @Database(
     entities = [CryptoCurrencyEntity::class, AssetsEntity::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class CryptoDatabase : RoomDatabase() {

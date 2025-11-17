@@ -6,26 +6,96 @@
     android:layout_height="match_parent"
     tools:context=".ui.dashboard.DashboardFragment">
 
-    <Button
-        android:id="@+id/addAssets"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/balanceText"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="добавить"
+        android:layout_marginTop="90dp"
+        android:text="Баланс"
+        android:textSize="20sp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="40dp" />
+        tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/balance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="$109976"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/balanceText"
+        tools:ignore="MissingConstraints" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/balanceChangeCard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="6dp"
+        android:layout_marginHorizontal="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/balance">
+
+        <TextView
+            android:id="@+id/balanceChange"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="-765"
+            android:textSize="20sp"
+            android:paddingVertical="2dp"
+            android:paddingHorizontal="6dp"
+            tools:ignore="MissingConstraints" />
+
+    </androidx.cardview.widget.CardView>
+
+    <LinearLayout
+        android:id="@+id/layoutButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="46dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/balanceChangeCard"
+        tools:ignore="MissingConstraints">
+
+        <Button
+            android:id="@+id/addAssets"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_marginHorizontal="3dp"
+            android:text="внести"
+            />
+
+        <Button
+            android:id="@+id/deleteAssets"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_marginHorizontal="3dp"
+            android:text="вывести"
+            app:layout_constraintStart_toEndOf="@+id/addAssets" />
+
+    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/assetsRecycleView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addAssets"
+        app:layout_constraintTop_toBottomOf="@+id/layoutButton"
         tools:listitem="@layout/item_assets" />
 
     <ProgressBar

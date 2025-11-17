@@ -4,6 +4,7 @@ import android.content.Context
 import com.example.cryptoassistant.api.RetrofitClient
 import com.example.cryptoassistant.api.data.AssetResult
 import com.example.cryptoassistant.api.data.AssetsEntity
+import com.example.cryptoassistant.api.data.BalanceResult
 import com.example.cryptoassistant.api.data.DatabaseRepository
 import java.lang.Math.abs
 class CryptoRepository(context: Context) {
@@ -56,4 +57,7 @@ class CryptoRepository(context: Context) {
         return result
     }
 
+    suspend fun getBalance() : List<BalanceResult> {
+        return DatabaseRepository.getBalance()
+    }
 }

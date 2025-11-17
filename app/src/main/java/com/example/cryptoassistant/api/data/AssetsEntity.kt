@@ -6,7 +6,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "assets")
 data class AssetsEntity(
-    @PrimaryKey val idCrypto: String,
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val idCrypto: String,
     val amount: Double,
     val price: Double,
 )
@@ -37,4 +38,10 @@ data class AssetResult(
     val asset: CryptoCurrencyEntity,
     val price: Double,
     val amount: Double
+)
+
+data class BalanceResult(
+    val count: Double,
+    val price: Double,
+    val newCurrent: String
 )
