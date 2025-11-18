@@ -96,7 +96,7 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             var newBalance = 0.0
 
             for (item in listBalance) {
-                oldBalance += item.price * item.count
+                oldBalance += item.count * item.price
                 newBalance += item.count * item.newCurrent.toDouble()
             }
 
