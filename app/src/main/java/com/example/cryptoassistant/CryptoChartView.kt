@@ -34,11 +34,6 @@ class CryptoChartView @JvmOverloads constructor(
         typeface = Typeface.DEFAULT_BOLD
     }
 
-    private val backgroundPaint = Paint().apply {
-        color = Color.WHITE
-        style = Paint.Style.FILL
-    }
-
     private val gridPaint = Paint().apply {
         color = Color.LTGRAY
         strokeWidth = 1f
@@ -52,9 +47,6 @@ class CryptoChartView @JvmOverloads constructor(
 
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
-
-        // Рисуем белый фон
-        canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), backgroundPaint)
 
         if (cryptoData.isEmpty()) {
             // Показываем сообщение если данных нет
