@@ -30,6 +30,7 @@ class DiagramView @JvmOverloads constructor(
     override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
         drawCircleButton(canvas)
+
     }
 
     // отслеживание нажатий

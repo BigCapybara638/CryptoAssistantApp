@@ -1,8 +1,10 @@
 package com.example.cryptoassistant
 
 import android.content.Context
-import android.content.res.Configuration
-import android.graphics.*
+import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.Paint
+import android.graphics.Path
 import android.util.AttributeSet
 import android.view.View
 
@@ -31,7 +33,7 @@ class CryptoChartView @JvmOverloads constructor(
         color = Color.GRAY
         textSize = 42f // Уменьшил размер текста
         textAlign = Paint.Align.CENTER
-        typeface = Typeface.DEFAULT_BOLD
+        //Paint.setTypeface = Typeface.DEFAULT_BOLD
     }
 
     private val gridPaint = Paint().apply {

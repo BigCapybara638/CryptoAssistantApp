@@ -20,11 +20,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
 
+    private lateinit var mainToolbar: CustomToolbarView
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        mainToolbar = binding.customToolbar
 
         val navView: BottomNavigationView = binding.navView
 
@@ -33,14 +37,15 @@ class MainActivity : AppCompatActivity() {
 
 
         navController = navHostFragment.navController
+//        val appBarConfiguration = AppBarConfiguration(
+//            setOf(
+//                R.id.navigation_home, R.id.navigation_dashboard
+//            )
+//        )
 
-        val appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.navigation_home, R.id.navigation_dashboard
-            )
-        )
+//        setupActionBarWithNavController(navController, appBarConfiguration)
 
-        setupActionBarWithNavController(navController, appBarConfiguration)
+        setupToolbarWithNavigation()
         navView.setupWithNavController(navController)
 
 
@@ -51,6 +56,39 @@ class MainActivity : AppCompatActivity() {
                     this,
                     R.color.teal_200)
             )
+        }
+    }
+
+    private fun setupToolbarWithNavigation() {
+        // Обновляем Toolbar при смене фрагментов
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            when (destination.id) {
+                R.id.navigation_home -> {
+                    mainToolbar.setTitle("Главная")
+                    mainToolbar.setBackVisible(false)
+                }
+
+                R.id.navigation_dashboard -> {
+                    mainToolbar.setTitle("Активы")
+                    mainToolbar.setBackVisible(false)
+                }
+
+                else -> {
+                    // Для других фрагментов показываем кнопку "Назад"
+                    mainToolbar.setBackVisible(true)
+                    mainToolbar.setOnBackListener {
+                        navController.navigateUp()
+                    }
+                }
+            }
+        }
+        // Начальная настройка
+        mainToolbar.setTitle("Главная")
+        mainToolbar.setBackVisible(false)
+
+        // Обработчик кнопки назад в Toolbar
+        mainToolbar.setOnBackListener {
+            navController.navigateUp()
         }
     }
 
