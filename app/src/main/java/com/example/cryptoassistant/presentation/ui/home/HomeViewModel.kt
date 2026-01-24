@@ -1,4 +1,4 @@
-package com.example.cryptoassistant.ui.home
+package com.example.cryptoassistant.presentation.ui.home
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

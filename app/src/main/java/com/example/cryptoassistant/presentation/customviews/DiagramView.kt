@@ -1,4 +1,4 @@
-package com.example.cryptoassistant
+package com.example.cryptoassistant.presentation.customviews
 
 import android.content.Context
 import android.graphics.Canvas

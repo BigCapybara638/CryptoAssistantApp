@@ -1,4 +1,4 @@
-package com.example.cryptoassistant.ui.dashboard
+package com.example.cryptoassistant.presentation.ui.dashboard
 
 import android.content.Context
 import android.content.res.Configuration
@@ -93,7 +93,7 @@ class AssetsAdapter : ListAdapter<AssetResult, AssetsAdapter.AssetsViewHolder>(D
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): AssetsAdapter.AssetsViewHolder {
+    ): AssetsViewHolder {
         val binding = ItemAssetsBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
@@ -102,7 +102,7 @@ class AssetsAdapter : ListAdapter<AssetResult, AssetsAdapter.AssetsViewHolder>(D
         return AssetsViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: AssetsAdapter.AssetsViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: AssetsViewHolder, position: Int) {
         holder.bind(getItem(position))
     }
 

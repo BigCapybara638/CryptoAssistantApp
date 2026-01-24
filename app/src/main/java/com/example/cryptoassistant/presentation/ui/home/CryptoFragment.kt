@@ -1,5 +1,6 @@
-package com.example.cryptoassistant.ui.home
+package com.example.cryptoassistant.presentation.ui.home
 
+import android.R
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
@@ -9,9 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import com.example.cryptoassistant.R
 import com.example.cryptoassistant.databinding.FragmentCryptoBinding
-
 
 class CryptoFragment : Fragment() {
     companion object {
@@ -97,55 +96,66 @@ class CryptoFragment : Fragment() {
 
         // работа с процентом изменения цены
         if (change >= 0) {
-            binding.cryptoChange.setBackgroundColor(ContextCompat.getColor(
+            binding.cryptoChange.setBackgroundColor(
+                ContextCompat.getColor(
                 requireContext(),
-                android.R.color.holo_green_light))
+                R.color.holo_green_light))
 
-            binding.cryptoChange.setTextColor(ContextCompat.getColor(
+            binding.cryptoChange.setTextColor(
+                ContextCompat.getColor(
                 requireContext(),
-                android.R.color.holo_green_dark))
+                R.color.holo_green_dark))
 
         }
         else {
-            binding.cryptoChange.setBackgroundColor(ContextCompat.getColor(
+            binding.cryptoChange.setBackgroundColor(
+                ContextCompat.getColor(
                 requireContext(),
-                android.R.color.holo_red_light))
+                R.color.holo_red_light))
 
-            binding.cryptoChange.setTextColor(ContextCompat.getColor(
+            binding.cryptoChange.setTextColor(
+                ContextCompat.getColor(
                 requireContext(),
-                android.R.color.holo_red_dark))
+                R.color.holo_red_dark))
 
         }
 
         // для темной темы
         if (isSystemInDarkTheme(requireContext())) {
-            binding.cryptoIndex.setTextColor(ContextCompat.getColor(
+            binding.cryptoIndex.setTextColor(
+                ContextCompat.getColor(
                 requireContext(),
-                R.color.purple_500))
+                com.example.cryptoassistant.R.color.purple_500))
 
-            binding.cryptoFullName.setTextColor(ContextCompat.getColor(
+            binding.cryptoFullName.setTextColor(
+                ContextCompat.getColor(
                 requireContext(),
-                R.color.boldTextNightTheme))
+                com.example.cryptoassistant.R.color.boldTextNightTheme))
 
-            binding.marketCapUsd.setTextColor(ContextCompat.getColor(
+            binding.marketCapUsd.setTextColor(
+                ContextCompat.getColor(
                 requireContext(),
-                R.color.boldTextNightTheme))
+                com.example.cryptoassistant.R.color.boldTextNightTheme))
 
-            binding.volume24.setTextColor(ContextCompat.getColor(
+            binding.volume24.setTextColor(
+                ContextCompat.getColor(
                 requireContext(),
-                R.color.boldTextNightTheme))
+                com.example.cryptoassistant.R.color.boldTextNightTheme))
 
-            binding.tSupply.setTextColor(ContextCompat.getColor(
+            binding.tSupply.setTextColor(
+                ContextCompat.getColor(
                 requireContext(),
-                R.color.boldTextNightTheme))
+                com.example.cryptoassistant.R.color.boldTextNightTheme))
 
-            binding.cSupply.setTextColor(ContextCompat.getColor(
+            binding.cSupply.setTextColor(
+                ContextCompat.getColor(
                 requireContext(),
-                R.color.boldTextNightTheme))
+                com.example.cryptoassistant.R.color.boldTextNightTheme))
 
-            binding.mSupply.setTextColor(ContextCompat.getColor(
+            binding.mSupply.setTextColor(
+                ContextCompat.getColor(
                 requireContext(),
-                R.color.boldTextNightTheme))
+                com.example.cryptoassistant.R.color.boldTextNightTheme))
         }
 
     }

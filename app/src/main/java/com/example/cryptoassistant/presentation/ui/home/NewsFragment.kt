@@ -1,22 +1,16 @@
-package com.example.cryptoassistant.ui.home
+package com.example.cryptoassistant.presentation.ui.home
 
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.text.style.URLSpan
-import com.example.cryptoassistant.R
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import com.example.cryptoassistant.R
 import com.example.cryptoassistant.databinding.FragmentNewsBinding
-import com.example.cryptoassistant.ui.dashboard.DashboardViewModel
-import com.squareup.picasso.Picasso
-
 
 class NewsFragment : Fragment() {
     companion object {
@@ -69,11 +63,13 @@ class NewsFragment : Fragment() {
         if (isSystemInDarkTheme(requireContext())) {
             (activity as AppCompatActivity).supportActionBar?.title = ""
 
-            binding.newsSource.setTextColor(ContextCompat.getColor(
+            binding.newsSource.setTextColor(
+                ContextCompat.getColor(
                 requireContext(),
                 R.color.purple_500))
 
-            binding.newsTitle.setTextColor(ContextCompat.getColor(
+            binding.newsTitle.setTextColor(
+                ContextCompat.getColor(
                 requireContext(),
                 R.color.boldTextNightTheme))
         }

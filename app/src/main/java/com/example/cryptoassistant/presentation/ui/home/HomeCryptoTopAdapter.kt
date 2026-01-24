@@ -1,7 +1,6 @@
-package com.example.cryptoassistant.ui.home
+package com.example.cryptoassistant.presentation.ui.home
 
 import android.content.Context
-import com.example.cryptoassistant.R
 import android.content.res.Configuration
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -9,9 +8,9 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.cryptoassistant.R
 import com.example.cryptoassistant.databinding.ItemHomeCryptotopsBinding
 import com.example.cryptoassistant.domain.models.CryptoItem
-
 
 class HomeCryptoTopAdapter : ListAdapter<CryptoItem, HomeCryptoTopAdapter.CryptoViewHolder>(DIFF_CALLBACK) {
 

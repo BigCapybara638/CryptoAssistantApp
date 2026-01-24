@@ -1,4 +1,4 @@
-package com.example.cryptoassistant.ui.dashboard
+package com.example.cryptoassistant.presentation.ui.dashboard
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

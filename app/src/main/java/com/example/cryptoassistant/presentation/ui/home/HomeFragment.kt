@@ -1,6 +1,5 @@
-package com.example.cryptoassistant.ui.home
+package com.example.cryptoassistant.presentation.ui.home
 
-import com.example.cryptoassistant.R
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import com.example.cryptoassistant.R
 import com.example.cryptoassistant.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -41,6 +41,8 @@ class HomeFragment : Fragment() {
 
         // Настраиваем BottomNavigationView
         binding.bottomNavHome.setupWithNavController(navController)
+
+
     }
 
     override fun onDestroyView() {

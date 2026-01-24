@@ -1,4 +1,4 @@
-package com.example.cryptoassistant.ui.home
+package com.example.cryptoassistant.presentation.ui.home
 
 import android.content.Context
 import android.content.res.Configuration
@@ -30,11 +30,13 @@ class HomeCryptoNewsAdapter: ListAdapter<CryptoNewsItem, HomeCryptoNewsAdapter.H
             }
 
             if (isSystemInDarkTheme(itemView.context)) {
-                binding.resourceName.setTextColor(ContextCompat.getColor(
+                binding.resourceName.setTextColor(
+                    ContextCompat.getColor(
                     itemView.context,
                     R.color.purple_500))
 
-                binding.cryptoNewsTitle.setTextColor(ContextCompat.getColor(
+                binding.cryptoNewsTitle.setTextColor(
+                    ContextCompat.getColor(
                     itemView.context,
                     R.color.boldTextNightTheme))
             }
@@ -44,7 +46,7 @@ class HomeCryptoNewsAdapter: ListAdapter<CryptoNewsItem, HomeCryptoNewsAdapter.H
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): HomeCryptoNewsAdapter.HomeCryptoNewsViewHolder {
+    ): HomeCryptoNewsViewHolder {
         val binding = ItemHomeNewsBinding.inflate(
             LayoutInflater.from(parent.context),
             parent,
@@ -54,7 +56,7 @@ class HomeCryptoNewsAdapter: ListAdapter<CryptoNewsItem, HomeCryptoNewsAdapter.H
     }
 
     override fun onBindViewHolder(
-        holder: HomeCryptoNewsAdapter.HomeCryptoNewsViewHolder,
+        holder: HomeCryptoNewsViewHolder,
         position: Int
     ) {
         holder.bind(getItem(position))

@@ -1,16 +1,14 @@
-package com.example.cryptoassistant
+package com.example.cryptoassistant.presentation.customviews
 
 import android.content.Context
-import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat
+import com.example.cryptoassistant.R
 import com.example.cryptoassistant.databinding.LayoutCustomToolbarBinding
-import androidx.core.content.withStyledAttributes
-import androidx.core.graphics.drawable.toDrawable
 
 class CustomToolbarView @JvmOverloads constructor(
     context: Context,

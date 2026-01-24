@@ -1,22 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/home_nested_navigation"
     app:startDestination="@id/homeBasicFragment">
 
     <fragment
         android:id="@+id/homeBasicFragment"
-        android:name="com.example.cryptoassistant.ui.home.BasicFragment"
-        android:label="Основное" />
+        android:name="com.example.cryptoassistant.presentation.ui.home.BasicFragment"
+        android:label="Основное">
+
+        <action
+            android:id="@+id/action_first_to_second"
+            app:destination="@id/navigation_news1"
+            app:popUpTo="@id/homeBasicFragment"
+            app:popUpToInclusive="false"
+            app:launchSingleTop="true"
+            />
+
+        <action
+            android:id="@+id/action_first_to_third"
+            app:destination="@id/navigation_crypto1"
+            app:popUpTo="@id/homeBasicFragment"
+            app:popUpToInclusive="false"
+            app:launchSingleTop="true"
+            />
+
+    </fragment>
 
     <fragment
         android:id="@+id/homeNewsFragment"
-        android:name="com.example.cryptoassistant.ui.home.NewsFragment"
+        android:name="com.example.cryptoassistant.presentation.ui.home.NewsFragment"
         android:label="Новости" />
 
     <fragment
         android:id="@+id/homeCryptoFragment"
-        android:name="com.example.cryptoassistant.ui.home.CryptoFragment"
+        android:name="com.example.cryptoassistant.presentation.ui.home.CryptoFragment"
         android:label="Крипто" />
+
+    <fragment
+        android:id="@+id/navigation_news1"
+        android:name="com.example.cryptoassistant.presentation.ui.home.NewsFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_news">
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/navigation_crypto1"
+        android:name="com.example.cryptoassistant.presentation.ui.home.CryptoFragment"
+        android:label="@string/title_dashboard"
+        tools:layout="@layout/fragment_crypto">
+
+    </fragment>
 
 </navigation>

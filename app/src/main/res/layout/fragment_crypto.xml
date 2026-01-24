@@ -78,7 +78,7 @@
 
             </LinearLayout>
 
-                <com.example.cryptoassistant.CryptoChartView
+                <com.example.cryptoassistant.presentation.customviews.CryptoChartView
                     android:id="@+id/lineChart"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />

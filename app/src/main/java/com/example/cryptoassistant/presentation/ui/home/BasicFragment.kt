@@ -1,4 +1,4 @@
-package com.example.cryptoassistant.ui.home
+package com.example.cryptoassistant.presentation.ui.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -14,8 +14,9 @@ import com.example.cryptoassistant.R
 import com.example.cryptoassistant.databinding.FragmentBasicBinding
 import com.example.cryptoassistant.domain.models.CryptoItem
 import com.example.cryptoassistant.domain.models.CryptoNewsItem
+import com.example.cryptoassistant.presentation.ui.home.HomeCryptoNewsAdapter
+import com.example.cryptoassistant.presentation.ui.home.HomeCryptoTopAdapter
 import kotlinx.coroutines.launch
-import kotlin.getValue
 
 class BasicFragment : Fragment() {
 
@@ -49,7 +50,8 @@ class BasicFragment : Fragment() {
             // криптовалюты - горизонтально
         binding.cryptoTopRecyclerView.apply {
             adapter = cryptoAdapter
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager =
+                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
         }
 
         // новости - вертикально

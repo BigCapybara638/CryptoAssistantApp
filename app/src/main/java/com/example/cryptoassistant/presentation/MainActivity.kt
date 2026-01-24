@@ -1,19 +1,17 @@
-package com.example.cryptoassistant
+package com.example.cryptoassistant.presentation
 
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.widget.TextView
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
+import com.example.cryptoassistant.presentation.customviews.CustomToolbarView
+import com.example.cryptoassistant.R
 import com.example.cryptoassistant.databinding.ActivityMainBinding
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class MainActivity : AppCompatActivity() {
 
@@ -107,4 +105,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-
