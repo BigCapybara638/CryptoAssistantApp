@@ -11,9 +11,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoassistant.R
-import com.example.cryptoassistant.api.crypronews.CryptoNewsItem
-import com.example.cryptoassistant.api.cryptoprice.CryptoItem
 import com.example.cryptoassistant.databinding.FragmentBasicBinding
+import com.example.cryptoassistant.domain.models.CryptoItem
+import com.example.cryptoassistant.domain.models.CryptoNewsItem
 import kotlinx.coroutines.launch
 import kotlin.getValue
 

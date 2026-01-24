@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoassistant.R
-import com.example.cryptoassistant.api.cryptoprice.CryptoItem
 import com.example.cryptoassistant.api.data.AssetResult
 import com.example.cryptoassistant.api.data.AssetsEntity
 import com.example.cryptoassistant.databinding.ItemAssetsBinding

@@ -3,10 +3,12 @@ package com.example.cryptoassistant.ui.home
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cryptoassistant.api.crypronews.CryptoNewsItem
-import com.example.cryptoassistant.api.crypronews.CryptoNewsRepository
-import com.example.cryptoassistant.api.cryptoprice.CryptoItem
-import com.example.cryptoassistant.api.cryptoprice.CryptoRepository
+import com.example.cryptoassistant.api.crypronews.CryptoNewsRepositoryImpl
+import com.example.cryptoassistant.api.cryptoprice.CryptoRepositoryImpl
+import com.example.cryptoassistant.domain.models.CryptoItem
+import com.example.cryptoassistant.domain.models.CryptoNewsItem
+import com.example.cryptoassistant.domain.usecases.GetCryptoNewsUseCase
+import com.example.cryptoassistant.domain.usecases.GetCryptoUseCase
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,8 +16,14 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val cryptoRepository = CryptoRepository(application.applicationContext)
-    private val newsRepository = CryptoNewsRepository()
+    private val cryptoRepositoryImpl = CryptoRepositoryImpl(application.applicationContext)
+    private val newsRepository = CryptoNewsRepositoryImpl()
+
+    private val getCryptoUseCase: GetCryptoUseCase = GetCryptoUseCase(cryptoRepositoryImpl)
+
+    private val getCryptoNewsUseCase =
+        GetCryptoNewsUseCase(newsRepository)
+
 
     // состояния для криптовалют
     private val _cryptosState = MutableStateFlow<DataState<List<CryptoItem>>>(DataState.Loading)
@@ -71,7 +79,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private suspend fun loadCryptos() {
         try {
             _cryptosState.value = DataState.Loading
-            val cryptos = cryptoRepository.getTopCryptos(20)
+            val cryptos = getCryptoUseCase(20)
             _cryptosState.value = DataState.Success(cryptos)
             println("✅ Загружено ${cryptos.size} криптовалют")
         } catch (e: Exception) {
@@ -84,7 +92,7 @@ class HomeViewModel(application: Application) : AndroidViewModel(application) {
     private suspend fun loadNews() {
         try {
             _newsState.value = DataState.Loading
-            val news = newsRepository.getCryptoNews(10)
+            val news = getCryptoNewsUseCase(10)
             _newsState.value = DataState.Success(news)
             println("✅ Загружено ${news.size} новостей")
         } catch (e: Exception) {

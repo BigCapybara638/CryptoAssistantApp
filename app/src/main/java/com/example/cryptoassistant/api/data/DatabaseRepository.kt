@@ -1,7 +1,7 @@
 package com.example.cryptoassistant.api.data
 
 import android.content.Context
-import com.example.cryptoassistant.api.cryptoprice.CryptoItem
+import com.example.cryptoassistant.domain.models.CryptoItem
 
 
 class DatabaseRepository(context: Context) {

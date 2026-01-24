@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoassistant.CustomProgressBarView
 import com.example.cryptoassistant.CustomToolbarView
 import com.example.cryptoassistant.R
-import com.example.cryptoassistant.api.cryptoprice.CryptoItem
 import com.example.cryptoassistant.api.data.AssetResult
 import com.example.cryptoassistant.api.data.AssetsEntity
 import com.example.cryptoassistant.databinding.DialogBottomSheetBinding
@@ -36,8 +35,6 @@ class DashboardFragment : Fragment() {
 
     private val assetsAdapter = AssetsAdapter()
     private val viewModel: DashboardViewModel by viewModels()
-
-    private lateinit var customToolbar: CustomToolbarView
 
 
     override fun onCreateView(

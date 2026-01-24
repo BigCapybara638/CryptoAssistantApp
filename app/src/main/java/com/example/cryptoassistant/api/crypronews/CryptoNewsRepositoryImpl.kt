@@ -1,11 +1,13 @@
 package com.example.cryptoassistant.api.crypronews
 
 import com.example.cryptoassistant.api.RetrofitClient
+import com.example.cryptoassistant.domain.models.CryptoNewsItem
+import com.example.cryptoassistant.domain.repositories.CryptoNewsRepository
 
-class CryptoNewsRepository {
+class CryptoNewsRepositoryImpl : CryptoNewsRepository {
 
     private val apiService = RetrofitClient.coinDeskApiService
-    suspend fun getCryptoNews(limit: Int = 10): List<CryptoNewsItem> {
+    override suspend fun getCryptoNews(limit: Int): List<CryptoNewsItem> {
         return try {
             // Сначала пробуем реальный API
             val realNews = try {

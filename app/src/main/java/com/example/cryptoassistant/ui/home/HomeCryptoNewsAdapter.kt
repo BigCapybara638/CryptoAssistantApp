@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoassistant.R
-import com.example.cryptoassistant.api.crypronews.CryptoNewsItem
 import com.example.cryptoassistant.databinding.ItemHomeNewsBinding
+import com.example.cryptoassistant.domain.models.CryptoNewsItem
 
 class HomeCryptoNewsAdapter: ListAdapter<CryptoNewsItem, HomeCryptoNewsAdapter.HomeCryptoNewsViewHolder>(DIFF_CALLBACK) {
 

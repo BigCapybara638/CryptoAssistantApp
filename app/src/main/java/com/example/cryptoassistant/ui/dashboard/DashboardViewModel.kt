@@ -3,12 +3,9 @@ package com.example.cryptoassistant.ui.dashboard
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cryptoassistant.api.cryptoprice.CryptoItem
-import com.example.cryptoassistant.api.cryptoprice.CryptoRepository
+import com.example.cryptoassistant.api.cryptoprice.CryptoRepositoryImpl
 import com.example.cryptoassistant.api.data.AssetResult
 import com.example.cryptoassistant.api.data.AssetsEntity
-import com.example.cryptoassistant.api.data.BalanceResult
-import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +13,7 @@ import kotlinx.coroutines.launch
 
 class DashboardViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val dashboardCryptoRepository = CryptoRepository(application.applicationContext)
+    private val dashboardCryptoRepositoryImpl = CryptoRepositoryImpl(application.applicationContext)
 
     // состояния для криптовалют
     private val _cryptosState = MutableStateFlow<DataState<List<AssetResult>>>(DataState.Loading)
@@ -68,7 +65,7 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             _cryptosState.value = DataState.Loading
             println("📥 Loading cryptos from API...")
 
-            val cryptos = dashboardCryptoRepository.getAssetAll()
+            val cryptos = dashboardCryptoRepositoryImpl.getAssetAll()
             println("📊 Received ${cryptos.size} cryptos from API")
 
 //            cryptos.forEach { crypto ->
@@ -85,13 +82,13 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun insertAssets(assets: List<AssetsEntity>) {
         viewModelScope.launch {
-            dashboardCryptoRepository.insertAssets(assets)
+            dashboardCryptoRepositoryImpl.insertAssets(assets)
         }
     }
 
     fun getBalance() {
         viewModelScope.launch {
-            val listBalance = dashboardCryptoRepository.getBalance()
+            val listBalance = dashboardCryptoRepositoryImpl.getBalance()
             var oldBalance = 0.0
             var newBalance = 0.0
 

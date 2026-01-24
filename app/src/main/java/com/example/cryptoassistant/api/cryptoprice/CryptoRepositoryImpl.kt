@@ -6,15 +6,17 @@ import com.example.cryptoassistant.api.data.AssetResult
 import com.example.cryptoassistant.api.data.AssetsEntity
 import com.example.cryptoassistant.api.data.BalanceResult
 import com.example.cryptoassistant.api.data.DatabaseRepository
-import java.lang.Math.abs
-class CryptoRepository(context: Context) {
+import com.example.cryptoassistant.domain.models.CryptoItem
+import com.example.cryptoassistant.domain.repositories.CryptoRepository
+
+class CryptoRepositoryImpl(context: Context) : CryptoRepository {
 
     private val apiService = RetrofitClient.coinLoreApiService
     private val DatabaseRepository = DatabaseRepository(context)
 
 
     // Получить топ криптовалют
-    suspend fun getTopCryptos(limit: Int = 50): List<CryptoItem> {
+    override suspend fun getTopCryptos(limit: Int): List<CryptoItem> {
         return try {
             println("📡 Getting top $limit cryptos from CoinLore...")
             val response = apiService.getTopCryptos()
@@ -30,21 +32,7 @@ class CryptoRepository(context: Context) {
             println("❌ CoinLore API Error: ${e.message}")
             val cache = DatabaseRepository.getCurrencyFromDatabase(limit)
             return cache
-        // emptyList()
 
-
-        }
-    }
-
-    // Получить глобальную статистику
-    suspend fun getGlobalStats(): GlobalStats? {
-        return try {
-            println("📡 Getting global stats from CoinLore...")
-            val response = apiService.getGlobalStats()
-            response.firstOrNull()
-        } catch (e: Exception) {
-            println("❌ Global stats error: ${e.message}")
-            null
         }
     }
 
@@ -60,4 +48,23 @@ class CryptoRepository(context: Context) {
     suspend fun getBalance() : List<BalanceResult> {
         return DatabaseRepository.getBalance()
     }
+}
+
+private fun CryptoItem.toCrypto(): CryptoItem {
+    return CryptoItem(
+        id = this.id,
+        symbol = this.symbol,
+        name = this.name,
+        nameId = this.nameId,
+        rank = this.rank,
+        priceUsd = this.priceUsd,
+        percentChange24h = this.percentChange24h,
+        percentChange1h = this.percentChange1h,
+        percentChange7d = this.percentChange7d,
+        marketCapUsd = this.marketCapUsd,
+        volume24 = this.volume24,
+        circulatingSupply = this.circulatingSupply,
+        tSupply = this.tSupply,
+        mSupply = this.mSupply
+    )
 }

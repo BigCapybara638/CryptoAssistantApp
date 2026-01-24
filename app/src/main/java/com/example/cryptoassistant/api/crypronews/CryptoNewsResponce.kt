@@ -1,6 +1,7 @@
 package com.example.cryptoassistant.api.crypronews
 
 import android.os.Parcelable
+import com.example.cryptoassistant.domain.models.CryptoNewsItem
 import com.google.gson.annotations.SerializedName
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -11,27 +12,6 @@ data class CryptoNewsResponse(
     @SerializedName("Data") val data: List<CryptoNewsItem>, // "Data" с большой буквы!
     @SerializedName("Err") val error: Map<String, Any>? = null
 )
-
-// Одна новость
-data class CryptoNewsItem(
-    @SerializedName("ID") val id: Long, // в логах видно что ID длинные числа
-    @SerializedName("PUBLISHED_ON") val publishedOn: Long,
-    @SerializedName("IMAGE_URL") val imageUrl: String?,
-    @SerializedName("TITLE") val title: String,
-    @SerializedName("URL") val url: String,
-    @SerializedName("BODY") val body: String,
-    @SerializedName("SOURCE_DATA") val sourceData: SourceData?,
-    @SerializedName("CATEGORY_DATA") val categoryData: List<CategoryData>? = null,
-    @SerializedName("SENTIMENT") val sentiment: String? = null
-) {
-    val formattedDate: String
-        get() = publishedOn.toFormattedDate()
-
-        // Computed property для относительного времени
-    val relativeTime: String
-        get() = publishedOn.toRelativeTime()
-
-}
 
 // Ресурс
 data class SourceData(
