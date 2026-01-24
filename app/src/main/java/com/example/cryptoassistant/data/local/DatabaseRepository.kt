@@ -11,22 +11,8 @@ class DatabaseRepository(context: Context) {
 
     suspend fun updateCurrency(list: List<CryptoItem>) {
         try {
-            println("💾 Starting to save ${list.size} items to database")
-
             val entities = list.map { it.toCryptoCurrencyEntity() }
-            println("💾 Mapped to ${entities.size} entities")
-
-            // Проверяем количество записей до вставки
-            val countBefore = dao.getCryptosCount()
-            println("💾 Records in database before: $countBefore")
-
             dao.insertCryptos(entities)
-
-            // Проверяем количество записей после вставки
-            val countAfter = dao.getCryptosCount()
-            println("💾 Records in database after: $countAfter")
-
-            println("💾 Successfully saved ${entities.size} items to database")
 
         } catch (e: Exception) {
             println("❌ Error updating currency: ${e.message}")

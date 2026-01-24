@@ -11,7 +11,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.cryptoassistant.databinding.FragmentCryptoBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CryptoFragment : Fragment() {
     companion object {
         private const val ARG_CRYPTO_NAME = "crypto_name"

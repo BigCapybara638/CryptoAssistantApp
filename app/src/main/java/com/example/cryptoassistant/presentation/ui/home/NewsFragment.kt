@@ -11,7 +11,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.cryptoassistant.R
 import com.example.cryptoassistant.databinding.FragmentNewsBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NewsFragment : Fragment() {
     companion object {
         private const val ARG_NEWS_TITLE = "news_title"

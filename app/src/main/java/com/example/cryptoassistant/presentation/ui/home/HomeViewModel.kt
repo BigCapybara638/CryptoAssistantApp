@@ -2,6 +2,7 @@ package com.example.cryptoassistant.presentation.ui.home
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cryptoassistant.data.repository.CryptoNewsRepositoryImpl
 import com.example.cryptoassistant.data.repository.CryptoRepositoryImpl
@@ -9,17 +10,20 @@ import com.example.cryptoassistant.domain.models.CryptoItem
 import com.example.cryptoassistant.domain.models.CryptoNewsItem
 import com.example.cryptoassistant.domain.usecases.GetCryptoNewsUseCase
 import com.example.cryptoassistant.domain.usecases.GetCryptoUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel(application: Application) : AndroidViewModel(application) {
+@HiltViewModel
+class HomeViewModel @Inject constructor(
+    private val getCryptoUseCase: GetCryptoUseCase
+) : ViewModel() {
 
-    private val cryptoRepositoryImpl = CryptoRepositoryImpl(application.applicationContext)
     private val newsRepository = CryptoNewsRepositoryImpl()
 
-    private val getCryptoUseCase: GetCryptoUseCase = GetCryptoUseCase(cryptoRepositoryImpl)
 
     private val getCryptoNewsUseCase =
         GetCryptoNewsUseCase(newsRepository)

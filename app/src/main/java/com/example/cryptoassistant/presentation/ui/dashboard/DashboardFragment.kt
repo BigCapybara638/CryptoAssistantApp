@@ -20,9 +20,11 @@ import com.example.cryptoassistant.databinding.DialogBottomSheetBinding
 import com.example.cryptoassistant.databinding.DialogBottomSheetDeleteBinding
 import com.example.cryptoassistant.databinding.FragmentDashboardBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 import kotlin.getValue
 
+@AndroidEntryPoint
 class DashboardFragment : Fragment() {
 
     private var _binding: FragmentDashboardBinding? = null

@@ -2,18 +2,19 @@ package com.example.cryptoassistant.presentation.ui.dashboard
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cryptoassistant.data.repository.CryptoRepositoryImpl
 import com.example.cryptoassistant.data.local.AssetResult
 import com.example.cryptoassistant.data.local.AssetsEntity
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class DashboardViewModel(application: Application) : AndroidViewModel(application) {
 
-    private val dashboardCryptoRepositoryImpl = CryptoRepositoryImpl(application.applicationContext)
+class DashboardViewModel() : ViewModel() {
 
     // состояния для криптовалют
     private val _cryptosState = MutableStateFlow<DataState<List<AssetResult>>>(DataState.Loading)
@@ -65,14 +66,14 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
             _cryptosState.value = DataState.Loading
             println("📥 Loading cryptos from API...")
 
-            val cryptos = dashboardCryptoRepositoryImpl.getAssetAll()
-            println("📊 Received ${cryptos.size} cryptos from API")
+            //val cryptos = dashboardCryptoRepositoryImpl.getAssetAll()
+            //println("📊 Received ${cryptos.size} cryptos from API")
 
 //            cryptos.forEach { crypto ->
 //                println("   - ${crypto.name}: ${crypto.priceUsd}")
 //            }
 
-            _cryptosState.value = DataState.Success(cryptos)
+            //_cryptosState.value = DataState.Success(cryptos)
 
         } catch (e: Exception) {
             println("❌ Crypto loading error: ${e.message}")
@@ -82,20 +83,20 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun insertAssets(assets: List<AssetsEntity>) {
         viewModelScope.launch {
-            dashboardCryptoRepositoryImpl.insertAssets(assets)
+            //dashboardCryptoRepositoryImpl.insertAssets(assets)
         }
     }
 
     fun getBalance() {
         viewModelScope.launch {
-            val listBalance = dashboardCryptoRepositoryImpl.getBalance()
+            //val listBalance = dashboardCryptoRepositoryImpl.getBalance()
             var oldBalance = 0.0
             var newBalance = 0.0
 
-            for (item in listBalance) {
-                oldBalance += item.count * item.price
-                newBalance += item.count * item.newCurrent.toDouble()
-            }
+//            for (item in listBalance) {
+//                oldBalance += item.count * item.price
+//                newBalance += item.count * item.newCurrent.toDouble()
+//            }
 
 
             _balanceChange.value = newBalance - oldBalance

@@ -8,9 +8,13 @@ import com.example.cryptoassistant.data.local.BalanceResult
 import com.example.cryptoassistant.data.local.DatabaseRepository
 import com.example.cryptoassistant.domain.models.CryptoItem
 import com.example.cryptoassistant.domain.repositories.CryptoRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 import kotlin.math.abs
 
-class CryptoRepositoryImpl(context: Context) : CryptoRepository {
+class CryptoRepositoryImpl @Inject constructor(
+    @ApplicationContext private val context: Context
+) : CryptoRepository {
 
     private val apiService = RetrofitClient.coinLoreApiService
     private val DatabaseRepository = DatabaseRepository(context)
@@ -37,36 +41,4 @@ class CryptoRepositoryImpl(context: Context) : CryptoRepository {
 
         }
     }
-
-    suspend fun insertAssets(assets: List<AssetsEntity>) {
-        DatabaseRepository.insertAssets(assets)
-    }
-
-    suspend fun getAssetAll() : List<AssetResult> {
-        val result = DatabaseRepository.getAssetsAll()
-        return result
-    }
-
-    suspend fun getBalance() : List<BalanceResult> {
-        return DatabaseRepository.getBalance()
-    }
-}
-
-private fun CryptoItem.toCrypto(): CryptoItem {
-    return CryptoItem(
-        id = this.id,
-        symbol = this.symbol,
-        name = this.name,
-        nameId = this.nameId,
-        rank = this.rank,
-        priceUsd = this.priceUsd,
-        percentChange24h = this.percentChange24h,
-        percentChange1h = this.percentChange1h,
-        percentChange7d = this.percentChange7d,
-        marketCapUsd = this.marketCapUsd,
-        volume24 = this.volume24,
-        circulatingSupply = this.circulatingSupply,
-        tSupply = this.tSupply,
-        mSupply = this.mSupply
-    )
 }

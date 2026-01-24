@@ -12,7 +12,9 @@ import com.example.cryptoassistant.presentation.customviews.CustomToolbarView
 import com.example.cryptoassistant.R
 import com.example.cryptoassistant.databinding.ActivityMainBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
