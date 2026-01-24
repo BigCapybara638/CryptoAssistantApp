@@ -9,8 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.cryptoassistant.R
-import com.example.cryptoassistant.api.data.AssetResult
-import com.example.cryptoassistant.api.data.AssetsEntity
+import com.example.cryptoassistant.data.local.AssetResult
 import com.example.cryptoassistant.databinding.ItemAssetsBinding
 
 class AssetsAdapter : ListAdapter<AssetResult, AssetsAdapter.AssetsViewHolder>(DIFF_CALLBACK) {

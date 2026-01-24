@@ -1,8 +1,8 @@
 package com.example.cryptoassistant.domain.models
 
-import com.example.cryptoassistant.api.crypronews.CategoryData
-import com.example.cryptoassistant.api.crypronews.SourceData
-import com.example.cryptoassistant.api.crypronews.toRelativeTime
+import com.example.cryptoassistant.data.remote.models.CategoryData
+import com.example.cryptoassistant.data.remote.models.SourceData
+import com.example.cryptoassistant.data.remote.models.toRelativeTime
 import com.google.gson.annotations.SerializedName
 
 data class CryptoNewsItem(

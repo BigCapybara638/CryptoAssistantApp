@@ -1,4 +1,4 @@
-package com.example.cryptoassistant.api.data
+package com.example.cryptoassistant.data.local
 
 import android.content.Context
 import com.example.cryptoassistant.domain.models.CryptoItem

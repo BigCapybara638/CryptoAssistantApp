@@ -1,6 +1,7 @@
-package com.example.cryptoassistant.api.crypronews
+package com.example.cryptoassistant.data.repository
 
-import com.example.cryptoassistant.api.RetrofitClient
+import com.example.cryptoassistant.data.remote.RetrofitClient
+import com.example.cryptoassistant.data.remote.models.SourceData
 import com.example.cryptoassistant.domain.models.CryptoNewsItem
 import com.example.cryptoassistant.domain.repositories.CryptoNewsRepository
 

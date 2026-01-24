@@ -1,5 +1,6 @@
-package com.example.cryptoassistant.api.cryptoprice
+package com.example.cryptoassistant.data.remote.api
 
+import com.example.cryptoassistant.data.remote.models.CryptoResponse
 import com.example.cryptoassistant.domain.models.CryptoItem
 import retrofit2.http.GET
 import retrofit2.http.Path

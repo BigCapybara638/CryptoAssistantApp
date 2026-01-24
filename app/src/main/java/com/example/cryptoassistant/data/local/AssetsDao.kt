@@ -1,11 +1,9 @@
-package com.example.cryptoassistant.api.data
+package com.example.cryptoassistant.data.local
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Update
-import com.example.cryptoassistant.api.data.AssetsEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -27,7 +25,7 @@ interface AssetsDao {
     @Query("SELECT assets.amount as count, assets.price as price, cryptocurrency.priceUsd as newCurrent FROM assets JOIN cryptoCurrency ON assets.idCrypto = cryptoCurrency.symbol")
     suspend fun getBalance() : List<BalanceResult>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
     suspend fun insertAssets(assets: List<AssetsEntity>)
 
     @Query("DELETE FROM assets")
@@ -43,7 +41,7 @@ interface AssetsDao {
     @Query("SELECT * FROM cryptoCurrency WHERE id = :id")
     suspend fun getCryptoById(id: String): CryptoCurrencyEntity?
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.Companion.REPLACE)
     suspend fun insertCryptos(cryptos: List<CryptoCurrencyEntity>)
 
     @Query("DELETE FROM cryptoCurrency")

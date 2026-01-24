@@ -1,13 +1,14 @@
-package com.example.cryptoassistant.api.cryptoprice
+package com.example.cryptoassistant.data.repository
 
 import android.content.Context
-import com.example.cryptoassistant.api.RetrofitClient
-import com.example.cryptoassistant.api.data.AssetResult
-import com.example.cryptoassistant.api.data.AssetsEntity
-import com.example.cryptoassistant.api.data.BalanceResult
-import com.example.cryptoassistant.api.data.DatabaseRepository
+import com.example.cryptoassistant.data.remote.RetrofitClient
+import com.example.cryptoassistant.data.local.AssetResult
+import com.example.cryptoassistant.data.local.AssetsEntity
+import com.example.cryptoassistant.data.local.BalanceResult
+import com.example.cryptoassistant.data.local.DatabaseRepository
 import com.example.cryptoassistant.domain.models.CryptoItem
 import com.example.cryptoassistant.domain.repositories.CryptoRepository
+import kotlin.math.abs
 
 class CryptoRepositoryImpl(context: Context) : CryptoRepository {
 
@@ -23,7 +24,8 @@ class CryptoRepositoryImpl(context: Context) : CryptoRepository {
             println("✅ Success! Received ${response.data.size} cryptos")
 
             val comparator =
-                compareByDescending<CryptoItem> { kotlin.math.abs((it.percentChange24h).toDouble())
+                compareByDescending<CryptoItem> {
+                    abs((it.percentChange24h).toDouble())
                 }
             DatabaseRepository.updateCurrency(response.data)
             response.data.sortedWith(comparator).take(limit)

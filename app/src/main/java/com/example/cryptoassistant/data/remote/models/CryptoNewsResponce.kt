@@ -1,6 +1,5 @@
-package com.example.cryptoassistant.api.crypronews
+package com.example.cryptoassistant.data.remote.models
 
-import android.os.Parcelable
 import com.example.cryptoassistant.domain.models.CryptoNewsItem
 import com.google.gson.annotations.SerializedName
 import java.text.SimpleDateFormat
@@ -9,7 +8,7 @@ import java.util.Locale
 
 // Главный ответ от API
 data class CryptoNewsResponse(
-    @SerializedName("Data") val data: List<CryptoNewsItem>, // "Data" с большой буквы!
+    @SerializedName("Data") val data: List<CryptoNewsItem>,
     @SerializedName("Err") val error: Map<String, Any>? = null
 )
 

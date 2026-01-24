@@ -5,9 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import android.widget.Toolbar
 import androidx.core.content.ContextCompat
-import androidx.core.graphics.drawable.toDrawable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -15,11 +13,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.cryptoassistant.CustomProgressBarView
-import com.example.cryptoassistant.CustomToolbarView
 import com.example.cryptoassistant.R
-import com.example.cryptoassistant.api.data.AssetResult
-import com.example.cryptoassistant.api.data.AssetsEntity
+import com.example.cryptoassistant.data.local.AssetResult
+import com.example.cryptoassistant.data.local.AssetsEntity
 import com.example.cryptoassistant.databinding.DialogBottomSheetBinding
 import com.example.cryptoassistant.databinding.DialogBottomSheetDeleteBinding
 import com.example.cryptoassistant.databinding.FragmentDashboardBinding

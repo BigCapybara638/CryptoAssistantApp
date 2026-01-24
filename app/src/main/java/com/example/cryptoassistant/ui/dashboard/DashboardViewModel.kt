@@ -3,9 +3,9 @@ package com.example.cryptoassistant.ui.dashboard
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cryptoassistant.api.cryptoprice.CryptoRepositoryImpl
-import com.example.cryptoassistant.api.data.AssetResult
-import com.example.cryptoassistant.api.data.AssetsEntity
+import com.example.cryptoassistant.data.repository.CryptoRepositoryImpl
+import com.example.cryptoassistant.data.local.AssetResult
+import com.example.cryptoassistant.data.local.AssetsEntity
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow

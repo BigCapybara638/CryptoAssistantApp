@@ -3,8 +3,8 @@ package com.example.cryptoassistant.ui.home
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.cryptoassistant.api.crypronews.CryptoNewsRepositoryImpl
-import com.example.cryptoassistant.api.cryptoprice.CryptoRepositoryImpl
+import com.example.cryptoassistant.data.repository.CryptoNewsRepositoryImpl
+import com.example.cryptoassistant.data.repository.CryptoRepositoryImpl
 import com.example.cryptoassistant.domain.models.CryptoItem
 import com.example.cryptoassistant.domain.models.CryptoNewsItem
 import com.example.cryptoassistant.domain.usecases.GetCryptoNewsUseCase

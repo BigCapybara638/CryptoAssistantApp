@@ -1,9 +1,9 @@
-package com.example.cryptoassistant.api.data
+package com.example.cryptoassistant.data.local
 
+import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import android.content.Context
 
 @Database(
     entities = [CryptoCurrencyEntity::class, AssetsEntity::class],

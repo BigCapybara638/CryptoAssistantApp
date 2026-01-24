@@ -1,8 +1,8 @@
 package com.example.cryptoassistant.domain.repositories
 
-import com.example.cryptoassistant.api.data.AssetResult
-import com.example.cryptoassistant.api.data.AssetsEntity
-import com.example.cryptoassistant.api.data.BalanceResult
+import com.example.cryptoassistant.data.local.AssetResult
+import com.example.cryptoassistant.data.local.AssetsEntity
+import com.example.cryptoassistant.data.local.BalanceResult
 
 interface AssetsRepository {
 

@@ -1,7 +1,7 @@
-package com.example.cryptoassistant.api
+package com.example.cryptoassistant.data.remote
 
-import com.example.cryptoassistant.api.crypronews.CoinDeskApiService
-import com.example.cryptoassistant.api.cryptoprice.CoinLoreApiService
+import com.example.cryptoassistant.data.remote.api.CoinDeskApiService
+import com.example.cryptoassistant.data.remote.api.CoinLoreApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
