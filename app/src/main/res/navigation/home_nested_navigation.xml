@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home_nested_navigation"
+    app:startDestination="@id/homeBasicFragment">
+
+    <fragment
+        android:id="@+id/homeBasicFragment"
+        android:name="com.example.cryptoassistant.ui.home.BasicFragment"
+        android:label="Основное" />
+
+    <fragment
+        android:id="@+id/homeNewsFragment"
+        android:name="com.example.cryptoassistant.ui.home.NewsFragment"
+        android:label="Новости" />
+
+    <fragment
+        android:id="@+id/homeCryptoFragment"
+        android:name="com.example.cryptoassistant.ui.home.CryptoFragment"
+        android:label="Крипто" />
+
+</navigation>

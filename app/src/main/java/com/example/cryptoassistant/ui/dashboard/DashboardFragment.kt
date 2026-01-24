@@ -56,11 +56,6 @@ class DashboardFragment : Fragment() {
 
         setupObservers()
         setupRecycleView()
-        viewModel.loadAllData()
-
-        binding.balanceChange.setOnClickListener {
-            binding.customProgressBarView.updateFullness(true)
-        }
 
         // нажатие на кнопку "Добавить"
         binding.addAssets.setOnClickListener {
