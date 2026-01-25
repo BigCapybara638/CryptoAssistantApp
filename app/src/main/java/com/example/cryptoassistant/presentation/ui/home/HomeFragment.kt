@@ -12,6 +12,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cryptoassistant.R
 import com.example.cryptoassistant.databinding.FragmentHomeBinding
@@ -55,14 +56,18 @@ class HomeFragment : Fragment() {
         binding.cryptoTopRecyclerView.apply {
             adapter = cryptoAdapter
             layoutManager =
-                LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+                GridLayoutManager(
+                    requireContext(),
+                    2,
+                    GridLayoutManager.VERTICAL,
+                    false)
         }
 
         // новости - вертикально
-        binding.cryptoNewsRecyclerView.apply {
-            adapter = newsAdapter
-            layoutManager = LinearLayoutManager(requireContext())
-        }
+//        binding.cryptoNewsRecyclerView.apply {
+//            adapter = newsAdapter
+//            layoutManager = LinearLayoutManager(requireContext())
+//        }
 
         // клик на криптовалюту
         cryptoAdapter.onItemClick = { crypto ->
@@ -70,9 +75,9 @@ class HomeFragment : Fragment() {
         }
 
         // клик на новость
-        newsAdapter.onItemClick = { newsItem ->
-            openNewsDetail(newsItem)
-        }
+//        newsAdapter.onItemClick = { newsItem ->
+//            openNewsDetail(newsItem)
+//        }
     }
 
     // переход в CryptoFragment
@@ -135,22 +140,22 @@ class HomeFragment : Fragment() {
         }
 
         // новости - используем newsState
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.newsState.collect { state ->
-                when (state) {
-                    is DataState.Success -> {
-                        newsAdapter.submitList(state.data)
-                        println("🔄 News updated: ${state.data.size} items")
-                    }
-                    is DataState.Error -> {
-                        println("❌ News error: ${state.message}")
-                    }
-                    is DataState.Loading -> {
-                        println("⏳ Loading news...")
-                    }
-                }
-            }
-        }
+//        viewLifecycleOwner.lifecycleScope.launch {
+//            viewModel.newsState.collect { state ->
+//                when (state) {
+//                    is DataState.Success -> {
+//                        newsAdapter.submitList(state.data)
+//                        println("🔄 News updated: ${state.data.size} items")
+//                    }
+//                    is DataState.Error -> {
+//                        println("❌ News error: ${state.message}")
+//                    }
+//                    is DataState.Loading -> {
+//                        println("⏳ Loading news...")
+//                    }
+//                }
+//            }
+//        }
 
         // общая загрузка
         viewLifecycleOwner.lifecycleScope.launch {

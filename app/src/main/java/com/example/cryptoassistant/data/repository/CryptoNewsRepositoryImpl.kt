@@ -8,21 +8,12 @@ import com.example.cryptoassistant.domain.repositories.CryptoNewsRepository
 class CryptoNewsRepositoryImpl : CryptoNewsRepository {
 
     private val apiService = RetrofitClient.coinDeskApiService
+
     override suspend fun getCryptoNews(limit: Int): List<CryptoNewsItem> {
         return try {
-            // Сначала пробуем реальный API
-            val realNews = try {
-                val response = apiService.getCryptoNews()
-                response.data.take(limit)
-            } catch (e: Exception) {
-                println("🔴 Real API failed, using mock data")
-                emptyList()
-            }
+            val response = apiService.getCryptoNews()
+            response.data.take(limit)
 
-            // Если реальные новости пустые, используем заглушку
-            realNews.ifEmpty {
-                getMockNews(limit)
-            }
         } catch (e: Exception) {
             println("❌ All news sources failed, using mock data")
             getMockNews(limit)

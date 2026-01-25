@@ -2,4 +2,6 @@
     <string name="app_name">CryptoAssistant</string>
     <string name="title_home">Главная</string>
     <string name="title_dashboard">Активы</string>
+    <string name="title_crypto">Крипто</string>
+    <string name="title_news">Новости</string>
 </resources>

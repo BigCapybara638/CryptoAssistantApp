@@ -4,10 +4,9 @@ import android.content.Context
 import com.example.cryptoassistant.domain.models.CryptoItem
 
 
-class DatabaseRepository(context: Context) {
-
-    private val database = CryptoDatabase.getInstance(context)
-    private val dao = database.cryptoAssetDao()
+class DatabaseRepository(
+    private val dao: AssetsDao
+) {
 
     suspend fun updateCurrency(list: List<CryptoItem>) {
         try {

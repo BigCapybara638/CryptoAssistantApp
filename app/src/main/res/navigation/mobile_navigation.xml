@@ -12,14 +12,6 @@
         tools:layout="@layout/fragment_home">
 
         <action
-            android:id="@+id/action_first_to_second"
-            app:destination="@id/navigation_news"
-            app:popUpTo="@id/navigation_home"
-            app:popUpToInclusive="false"
-            app:launchSingleTop="true"
-        />
-
-        <action
             android:id="@+id/action_first_to_third"
             app:destination="@id/navigation_crypto"
             app:popUpTo="@id/navigation_home"
@@ -33,6 +25,25 @@
 
     </fragment>
 
+    <fragment
+        android:id="@+id/navigation_homeNews"
+        android:name="com.example.cryptoassistant.presentation.ui.home.HomeFragment"
+        android:label="@string/title_home"
+        tools:layout="@layout/fragment_home">
+
+        <action
+            android:id="@+id/action_first_to_second"
+            app:destination="@id/navigation_news"
+            app:popUpTo="@id/navigation_home"
+            app:popUpToInclusive="false"
+            app:launchSingleTop="true"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            />
+
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_dashboard"
@@ -46,6 +57,10 @@
             app:popUpTo="@id/navigation_dashboard"
             app:popUpToInclusive="false"
             app:launchSingleTop="true"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
             />
 
     </fragment>

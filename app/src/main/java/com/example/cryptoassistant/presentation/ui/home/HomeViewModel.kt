@@ -24,7 +24,6 @@ class HomeViewModel @Inject constructor(
 
     private val newsRepository = CryptoNewsRepositoryImpl()
 
-
     private val getCryptoNewsUseCase =
         GetCryptoNewsUseCase(newsRepository)
 
